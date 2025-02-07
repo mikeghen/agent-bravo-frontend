@@ -31,11 +31,11 @@ export default function CreateAgent() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "Agent Bravo",
-      backstory: "You're a seasoned delegate with experience reviewing governance proposals for Decentralized Autonomous Organizations (DAO).\nYou take a very return on investment (ROI) approach to governance for all proposals requesting funds from the treasury.\nYou will vote for proposals that clearly show how the funds will be used to generate a return on investment (ROI) for the DAO.\nYou benchmark the ROI against the cost depositing the funds to earn a yeild of 10% annually.\nProposals that show a return on investment (ROI) of 10% or more will be voted for.",
-      voteNoConditions: "The proposal does not clearly demonstrate a return on investment (ROI) of at least 10% annually.",
-      voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
-      voteAbstainConditions: "The proposal's return on investment (ROI) cannot be accurately determined from the provided information.",
+      name: "",
+      backstory: "",
+      voteNoConditions: "",
+      voteYesConditions: "",
+      voteAbstainConditions: "",
     },
   });
 
