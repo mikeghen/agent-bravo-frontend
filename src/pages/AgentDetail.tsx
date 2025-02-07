@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
-import { ArrowLeft, Database, Check, X, CircleDot } from "lucide-react";
+import { ArrowLeft, ExternalLink, Check, X, CircleDot } from "lucide-react";
 
 export default function AgentDetail() {
   const { id } = useParams();
@@ -56,19 +56,21 @@ export default function AgentDetail() {
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">{agent.name}</h1>
+          <div className="flex justify-between items-start mb-8">
+            <h1 className="text-4xl font-bold text-gray-900">{agent.name}</h1>
+            <a 
+              href={`https://sepolia.etherscan.io/address/${agent.contractAddress}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-gray-900"
+            >
+              <ExternalLink className="w-5 h-5" />
+            </a>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Left Column - Agent Specifications */}
             <div className="space-y-8">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Contract Address</h2>
-                <div className="flex items-center gap-2 text-gray-600 font-mono bg-gray-50 p-3 rounded-lg">
-                  <Database className="w-4 h-4" />
-                  {agent.contractAddress}
-                </div>
-              </div>
-
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">Backstory</h2>
                 <p className="text-gray-600 whitespace-pre-wrap">{agent.backstory}</p>
