@@ -64,6 +64,7 @@ const TokenPresale = () => {
                       label={{ value: 'Months', position: 'insideBottom', offset: -5 }}
                     />
                     <YAxis 
+                      yAxisId="left"
                       label={{ 
                         value: 'Token Supply', 
                         angle: -90, 
@@ -73,19 +74,42 @@ const TokenPresale = () => {
                       domain={['dataMin - 1000000', 'dataMax + 1000000']}
                       tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
                     />
+                    <YAxis 
+                      yAxisId="right"
+                      orientation="right"
+                      label={{ 
+                        value: 'Monthly Inflation', 
+                        angle: 90, 
+                        position: 'insideRight',
+                        offset: 10
+                      }}
+                      domain={[0, 20000]}
+                      tickFormatter={(value) => `${value / 1000}K`}
+                    />
                     <Tooltip 
-                      formatter={(value: number) => [
-                        `${(value / 1000000).toFixed(2)}M`, 
-                        'Token Supply'
-                      ]}
+                      formatter={(value: number, name: string) => {
+                        if (name === 'Token Supply') {
+                          return [`${(value / 1000000).toFixed(2)}M`, name];
+                        }
+                        return [`${(value / 1000).toFixed(1)}K`, name];
+                      }}
                       labelFormatter={(month) => `Month ${month}`}
                     />
                     <Legend />
                     <Line 
+                      yAxisId="left"
                       type="monotone" 
                       dataKey="supply" 
                       stroke="#43b8a1" 
                       name="Token Supply"
+                      strokeWidth={2}
+                    />
+                    <Line 
+                      yAxisId="right"
+                      type="monotone" 
+                      dataKey="inflation" 
+                      stroke="#ff7c43" 
+                      name="Monthly Inflation"
                       strokeWidth={2}
                     />
                   </LineChart>
@@ -116,3 +140,4 @@ const TokenPresale = () => {
 };
 
 export default TokenPresale;
+
