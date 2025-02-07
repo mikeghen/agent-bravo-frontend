@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -55,67 +56,89 @@ const TokenPresale = () => {
             </div>
 
             <div className="mt-8 bg-white p-6 rounded-lg">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Tokenomics</h3>
-              <div className="h-[400px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={tokenData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis 
-                      dataKey="month" 
-                      label={{ value: 'Months', position: 'bottom', offset: -5 }}
-                      tickLine={false}
-                      tick={false}
-                    />
-                    <YAxis 
-                      yAxisId="left"
-                      label={{ 
-                        value: 'Token Supply', 
-                        angle: -90, 
-                        position: 'insideLeft'
-                      }}
-                      tickLine={false}
-                      tick={false}
-                      domain={[0, 400000]}
-                    />
-                    <YAxis 
-                      yAxisId="right"
-                      orientation="right"
-                      label={{ 
-                        value: 'Inflation Rate', 
-                        angle: 90, 
-                        position: 'insideRight'
-                      }}
-                      tickLine={false}
-                      tick={false}
-                      domain={[0, 100]}
-                    />
-                    <Tooltip 
-                      formatter={(value: number, name: string) => {
-                        if (name === 'Token Supply') {
-                          return [`${value.toLocaleString()} tokens`, name];
-                        }
-                        return [`${value.toFixed(2)}%`, 'Inflation Rate'];
-                      }}
-                      labelFormatter={(month) => `Month ${month}`}
-                    />
-                    <Line 
-                      yAxisId="left"
-                      type="monotone" 
-                      dataKey="supply" 
-                      stroke="#22C55E" 
-                      name="Token Supply"
-                      strokeWidth={2}
-                    />
-                    <Line 
-                      yAxisId="right"
-                      type="monotone" 
-                      dataKey="inflationRate" 
-                      stroke="#6B7280" 
-                      name="Inflation Rate"
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+              <div className="grid md:grid-cols-[300px,1fr] gap-8">
+                <div className="space-y-6 text-left">
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">Token Distribution</h3>
+                    <ul className="list-decimal list-inside space-y-2 text-gray-600">
+                      <li>Emissions split 50/50 with the community and the developers</li>
+                      <li>Community Share: Fairly distributed to Uniswap V4 BRAVO-ETH and BRAVO-USDC</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">Token Utilities</h3>
+                    <ul className="list-decimal list-inside space-y-2 text-gray-600">
+                      <li>Access to Token Gated Chat on Discord</li>
+                      <li>Purchase Agent Bravo Merch from the Store</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Tokenomics</h3>
+                  <div className="h-[400px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={tokenData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis 
+                          dataKey="month" 
+                          label={{ value: 'Months', position: 'bottom', offset: -5 }}
+                          tickLine={false}
+                          tick={false}
+                        />
+                        <YAxis 
+                          yAxisId="left"
+                          label={{ 
+                            value: 'Token Supply', 
+                            angle: -90, 
+                            position: 'insideLeft'
+                          }}
+                          tickLine={false}
+                          tick={false}
+                          domain={[0, 400000]}
+                        />
+                        <YAxis 
+                          yAxisId="right"
+                          orientation="right"
+                          label={{ 
+                            value: 'Inflation Rate', 
+                            angle: 90, 
+                            position: 'insideRight'
+                          }}
+                          tickLine={false}
+                          tick={false}
+                          domain={[0, 100]}
+                        />
+                        <Tooltip 
+                          formatter={(value: number, name: string) => {
+                            if (name === 'Token Supply') {
+                              return [`${value.toLocaleString()} tokens`, name];
+                            }
+                            return [`${value.toFixed(2)}%`, 'Inflation Rate'];
+                          }}
+                          labelFormatter={(month) => `Month ${month}`}
+                        />
+                        <Line 
+                          yAxisId="left"
+                          type="monotone" 
+                          dataKey="supply" 
+                          stroke="#22C55E" 
+                          name="Token Supply"
+                          strokeWidth={2}
+                        />
+                        <Line 
+                          yAxisId="right"
+                          type="monotone" 
+                          dataKey="inflationRate" 
+                          stroke="#6B7280" 
+                          name="Inflation Rate"
+                          strokeWidth={2}
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
               </div>
             </div>
             
