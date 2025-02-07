@@ -20,8 +20,8 @@ const Navbar = () => {
             <Link to="/proposals" className="text-gray-600 hover:text-mint-600 transition-colors">
               Proposals
             </Link>
-            <Link to="/create-agent" className="text-gray-600 hover:text-mint-600 transition-colors">
-              Create Agent
+            <Link to="/agents" className="text-gray-600 hover:text-mint-600 transition-colors">
+              My Agents
             </Link>
             <Link to="/" className="text-gray-600 hover:text-mint-600 transition-colors">
               Documentation
@@ -50,11 +50,11 @@ const Navbar = () => {
               Proposals
             </Link>
             <Link
-              to="/create-agent"
+              to="/agents"
               className="block px-3 py-2 text-gray-600 hover:text-mint-600"
               onClick={() => setIsOpen(false)}
             >
-              Create Agent
+              My Agents
             </Link>
             <Link
               to="/"
