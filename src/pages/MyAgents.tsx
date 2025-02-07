@@ -8,7 +8,7 @@ import { Plus, User } from "lucide-react";
 const agents = [
   {
     id: "1",
-    name: "Agent Bravo",
+    name: "InvestoTron Capital",
     backstory: "You're a seasoned delegate with experience reviewing governance proposals...",
     stats: {
       totalOpinions: 45,
@@ -19,7 +19,7 @@ const agents = [
   },
   {
     id: "2",
-    name: "Agent Sigma",
+    name: "CreditSage AI",
     backstory: "Professional risk analyst specializing in DeFi protocol evaluation...",
     stats: {
       totalOpinions: 38,
@@ -30,7 +30,7 @@ const agents = [
   },
   {
     id: "3",
-    name: "Agent Delta",
+    name: "LiquidityOracle",
     backstory: "Blockchain security expert focused on smart contract vulnerabilities...",
     stats: {
       totalOpinions: 52,
