@@ -26,7 +26,7 @@ const DetailCard = ({ icon, title, description, isUtility = false }: DetailCardP
 
 const TokenDetailsSection = () => {
   return (
-    <div className="max-w-4xl mx-auto mt-24"> {/* Increased margin from mt-16 to mt-24 */}
+    <div className="max-w-4xl mx-auto mt-24">
       <h2 className="text-3xl font-bold text-gray-900 mb-12">Token Details</h2>
       <div className="grid md:grid-cols-2 gap-12">
         <div className="space-y-4">
@@ -36,7 +36,7 @@ const TokenDetailsSection = () => {
           />
           <DetailCard
             title="Community Share"
-            description="5,000 BRAVO tokens distributed monthly through Uniswap V4 BRAVO-ETH and BRAVO-USDC pools"
+            description="5,000 BRAVO tokens donated monthly through Uniswap V4 BRAVO-ETH and BRAVO-USDC pools"
           />
           <DetailCard
             title="Developer Share"
