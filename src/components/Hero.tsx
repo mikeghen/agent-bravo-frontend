@@ -1,4 +1,5 @@
-import { ArrowRight } from "lucide-react";
+
+import { ArrowRight, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
@@ -28,8 +29,15 @@ const Hero = () => {
           
           <div className="flex justify-center gap-4">
             <Link
-              to="/proposals"
+              to="/agents"
               className="inline-flex items-center px-6 py-3 rounded-lg bg-mint-600 text-white hover:bg-mint-700 transition-colors"
+            >
+              <Plus className="mr-2 h-5 w-5" />
+              Create Agent
+            </Link>
+            <Link
+              to="/proposals"
+              className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-mint-600 border border-mint-200 hover:border-mint-300 transition-colors"
             >
               View Proposals
               <ArrowRight className="ml-2 h-5 w-5" />
