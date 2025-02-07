@@ -2,7 +2,8 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
-import { ArrowLeft, ExternalLink, Check, X, CircleDot } from "lucide-react";
+import { ArrowLeft, ExternalLink, Check, X, CircleDot, Brain } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function AgentDetail() {
   const { id } = useParams();
@@ -10,7 +11,7 @@ export default function AgentDetail() {
   // Mock data - in a real app this would come from your backend
   const agent = {
     id: "1",
-    name: "Agent Bravo",
+    name: "InvestoTron Capital",
     backstory: "I am a seasoned delegate with experience reviewing governance proposals",
     voteNoConditions: "The proposal does not clearly demonstrate a return on investment (ROI) of at least 10% annually.",
     voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
@@ -57,7 +58,14 @@ export default function AgentDetail() {
 
         <div className="glass-card p-8 rounded-lg">
           <div className="flex justify-between items-start mb-8">
-            <h1 className="text-4xl font-bold gradient-text">{agent.name}</h1>
+            <div className="flex items-center gap-4">
+              <Avatar className="h-12 w-12 bg-primary/20">
+                <AvatarFallback className="bg-primary/20">
+                  <Brain className="h-6 w-6 text-primary" />
+                </AvatarFallback>
+              </Avatar>
+              <h1 className="text-4xl font-bold gradient-text">{agent.name}</h1>
+            </div>
             <a 
               href={`https://sepolia.etherscan.io/address/${agent.contractAddress}`}
               target="_blank"
