@@ -1,8 +1,8 @@
+
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Button } from "@/components/ui/button";
-import { Plus, Brain, LineChart, Shield } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Plus } from "lucide-react";
 
 // Mock data - in a real app this would come from your backend
 const agents = [
@@ -65,13 +65,6 @@ export default function MyAgents() {
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-4">
-                  <Avatar className="h-12 w-12 bg-primary/20">
-                    <AvatarFallback className="bg-primary/20">
-                      {agent.name === "InvestoTron Capital" && <Brain className="h-6 w-6 text-primary" />}
-                      {agent.name === "CreditSage AI" && <LineChart className="h-6 w-6 text-primary" />}
-                      {agent.name === "LiquidityOracle" && <Shield className="h-6 w-6 text-primary" />}
-                    </AvatarFallback>
-                  </Avatar>
                   <div>
                     <h2 className="text-xl font-semibold text-foreground">{agent.name}</h2>
                     <p className="text-muted-foreground mt-1 line-clamp-2">{agent.backstory}</p>
