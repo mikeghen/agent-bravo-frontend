@@ -9,7 +9,7 @@ interface DetailCardProps {
 }
 
 const DetailCard = ({ icon, title, description, isUtility = false }: DetailCardProps) => (
-  <div className={`bg-white p-6 rounded-lg shadow-sm ${isUtility ? 'bg-mint-600 text-white' : 'bg-gray-50'}`}>
+  <div className={`bg-mint-50 p-6 rounded-lg shadow-sm ${isUtility ? 'bg-mint-600 text-white' : ''}`}>
     <div className="flex items-start gap-4">
       {icon && (
         <div className={`w-12 h-12 ${isUtility ? 'bg-mint-100' : 'bg-mint-100'} rounded-full flex items-center justify-center flex-shrink-0`}>
