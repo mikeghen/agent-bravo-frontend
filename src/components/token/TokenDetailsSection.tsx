@@ -26,7 +26,7 @@ const DetailCard = ({ icon, title, description, isUtility = false }: DetailCardP
 
 const TokenDetailsSection = () => {
   return (
-    <div className="max-w-4xl mx-auto mt-16">
+    <div className="max-w-4xl mx-auto mt-24"> {/* Increased margin from mt-16 to mt-24 */}
       <h2 className="text-3xl font-bold text-gray-900 mb-12">Token Details</h2>
       <div className="grid md:grid-cols-2 gap-12">
         <div className="space-y-4">

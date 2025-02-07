@@ -40,7 +40,7 @@ const Roadmap = () => {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-12 bg-white"> {/* Reduced padding from py-20 to py-12 */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-8 mb-16">
           <h2 className="text-4xl font-bold text-gray-900">Roadmap</h2>
