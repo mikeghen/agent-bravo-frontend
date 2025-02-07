@@ -42,27 +42,27 @@ export default function AgentDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="flex justify-between items-center mb-8">
-          <Link to="/agents" className="inline-flex items-center gap-2 text-mint-600 hover:text-mint-700">
+          <Link to="/agents" className="inline-flex items-center gap-2 text-primary hover:text-primary/80">
             <ArrowLeft className="w-4 h-4" />
             Back to Agents
           </Link>
           <Link to={`/agents/${id}/edit`}>
-            <Button className="bg-mint-600 hover:bg-mint-700">Edit Agent</Button>
+            <Button className="bg-primary hover:bg-primary/80 text-primary-foreground">Edit Agent</Button>
           </Link>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <div className="glass-card p-8 rounded-lg">
           <div className="flex justify-between items-start mb-8">
-            <h1 className="text-4xl font-bold text-gray-900">{agent.name}</h1>
+            <h1 className="text-4xl font-bold gradient-text">{agent.name}</h1>
             <a 
               href={`https://sepolia.etherscan.io/address/${agent.contractAddress}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-mint-600 hover:text-mint-700"
+              className="text-primary hover:text-primary/80"
             >
               <ExternalLink className="w-5 h-5" />
             </a>
@@ -72,23 +72,23 @@ export default function AgentDetail() {
             {/* Left Column - Agent Specifications */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-6">Voting Policy</h2>
-                <p className="text-gray-700 mb-6 whitespace-pre-wrap">{agent.backstory}</p>
+                <h2 className="text-xl font-semibold text-foreground mb-6">Voting Policy</h2>
+                <p className="text-muted-foreground mb-6 whitespace-pre-wrap">{agent.backstory}</p>
                 
                 <div className="space-y-6">
-                  <div className="bg-red-100 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-red-800 mb-2">Vote NO Conditions</h3>
-                    <p className="text-red-700 whitespace-pre-wrap">{agent.voteNoConditions}</p>
+                  <div className="bg-destructive/20 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-destructive mb-2">Vote NO Conditions</h3>
+                    <p className="text-destructive/90 whitespace-pre-wrap">{agent.voteNoConditions}</p>
                   </div>
 
-                  <div className="bg-mint-100 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-mint-800 mb-2">Vote YES Conditions</h3>
-                    <p className="text-mint-700 whitespace-pre-wrap">{agent.voteYesConditions}</p>
+                  <div className="bg-primary/20 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-primary mb-2">Vote YES Conditions</h3>
+                    <p className="text-primary/90 whitespace-pre-wrap">{agent.voteYesConditions}</p>
                   </div>
 
-                  <div className="bg-gray-100 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Vote ABSTAIN Conditions</h3>
-                    <p className="text-gray-700 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
+                  <div className="bg-muted p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Vote ABSTAIN Conditions</h3>
+                    <p className="text-muted-foreground whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
                   </div>
                 </div>
               </div>
@@ -96,20 +96,20 @@ export default function AgentDetail() {
 
             {/* Right Column - Voting History */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Voting History</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-6">Voting History</h2>
               <div className="space-y-4">
                 {agent.votingHistory.map((vote) => (
-                  <div key={vote.id} className="bg-gray-50 rounded-lg p-4">
+                  <div key={vote.id} className="glass-card rounded-lg p-4">
                     <div className="flex items-start">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-medium text-gray-900">{vote.proposalTitle}</h3>
+                          <h3 className="font-medium text-foreground">{vote.proposalTitle}</h3>
                           <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                             vote.vote === 'for' 
-                              ? 'bg-mint-100 text-mint-800'
+                              ? 'bg-primary/20 text-primary'
                               : vote.vote === 'against'
-                              ? 'bg-red-100 text-red-800'
-                              : 'bg-gray-100 text-gray-800'
+                              ? 'bg-destructive/20 text-destructive'
+                              : 'bg-muted text-muted-foreground'
                           }`}>
                             {vote.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
                             {vote.vote === 'against' && <X className="h-3 w-3 mr-1" />}
@@ -117,8 +117,8 @@ export default function AgentDetail() {
                             {vote.vote.charAt(0).toUpperCase() + vote.vote.slice(1)}
                           </span>
                         </div>
-                        <p className="text-gray-600 text-sm mb-2">{vote.comment}</p>
-                        <span className="text-xs text-gray-500">{vote.timestamp}</span>
+                        <p className="text-muted-foreground text-sm mb-2">{vote.comment}</p>
+                        <span className="text-xs text-muted-foreground">{vote.timestamp}</span>
                       </div>
                     </div>
                   </div>
