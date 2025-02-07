@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import TokenPresale from "../components/TokenPresale";
 import Roadmap from "../components/Roadmap";
+import Footer from "../components/Footer";
 
 const Index = () => {
   return (
@@ -11,6 +12,7 @@ const Index = () => {
       <Hero />
       <TokenPresale />
       <Roadmap />
+      <Footer />
     </div>
   );
 };
