@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Calendar, Check, X, CircleDot } from "lucide-react";
@@ -97,7 +98,7 @@ const ProposalDetail = () => {
 
               <div className="glass-card p-4">
                 <div className="flex justify-between mb-2">
-                  <span className="flex items-center text-destructive">
+                  <span className="flex items-center text-[#F97316]">
                     <X className="h-4 w-4 mr-1" />
                     Against
                   </span>
@@ -105,7 +106,7 @@ const ProposalDetail = () => {
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-destructive rounded-full"
+                    className="h-full bg-[#F97316] rounded-full"
                     style={{
                       width: `${(proposal.votes.against / (proposal.votes.for + proposal.votes.against)) * 100}%`,
                     }}
@@ -140,7 +141,7 @@ const ProposalDetail = () => {
                         comment.vote === 'for' 
                           ? 'bg-primary/20 text-primary border border-primary/30'
                           : comment.vote === 'against'
-                          ? 'bg-destructive/20 text-destructive border border-destructive/30'
+                          ? 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30'
                           : 'bg-muted text-muted-foreground border border-muted/30'
                       }`}>
                         {comment.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
