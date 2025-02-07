@@ -1,4 +1,3 @@
-
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import TokenPresale from "../components/TokenPresale";
@@ -9,10 +8,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <div className="space-y-24"> {/* Add consistent 96px spacing between sections */}
+      <div className="space-y-24">
         <Hero />
-        <TokenPresale />
         <Roadmap />
+        <TokenPresale />
       </div>
       <Footer />
     </div>
