@@ -70,40 +70,6 @@ const AboutUs = () => {
               </Card>
             </div>
           </div>
-
-          {/* Team Section */}
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Our Team</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-                  alt="Team member"
-                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-                />
-                <h3 className="text-xl font-semibold text-gray-900">Alex Thompson</h3>
-                <p className="text-gray-600">Founder & CEO</p>
-              </div>
-              <div className="text-center">
-                <img
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
-                  alt="Team member"
-                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-                />
-                <h3 className="text-xl font-semibold text-gray-900">Sarah Chen</h3>
-                <p className="text-gray-600">CTO</p>
-              </div>
-              <div className="text-center">
-                <img
-                  src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef"
-                  alt="Team member"
-                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-                />
-                <h3 className="text-xl font-semibold text-gray-900">Michael Roberts</h3>
-                <p className="text-gray-600">Head of Research</p>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
 
