@@ -23,9 +23,6 @@ const Navbar = () => {
             <Link to="/proposals" className="text-gray-600 hover:text-mint-600 transition-colors">
               Proposals
             </Link>
-            <Link to="/" className="text-gray-600 hover:text-mint-600 transition-colors">
-              Whitepaper
-            </Link>
           </div>
 
           <div className="md:hidden flex items-center">
@@ -55,13 +52,6 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Proposals
-            </Link>
-            <Link
-              to="/"
-              className="block px-3 py-2 text-gray-600 hover:text-mint-600"
-              onClick={() => setIsOpen(false)}
-            >
-              Whitepaper
             </Link>
           </div>
         </div>
