@@ -17,14 +17,14 @@ const Navbar = () => {
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/proposals" className="text-gray-600 hover:text-mint-600 transition-colors">
-              Proposals
-            </Link>
             <Link to="/agents" className="text-gray-600 hover:text-mint-600 transition-colors">
               My Agents
             </Link>
+            <Link to="/proposals" className="text-gray-600 hover:text-mint-600 transition-colors">
+              Proposals
+            </Link>
             <Link to="/" className="text-gray-600 hover:text-mint-600 transition-colors">
-              Documentation
+              Whitepaper
             </Link>
           </div>
 
@@ -43,13 +43,6 @@ const Navbar = () => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-b">
             <Link
-              to="/proposals"
-              className="block px-3 py-2 text-gray-600 hover:text-mint-600"
-              onClick={() => setIsOpen(false)}
-            >
-              Proposals
-            </Link>
-            <Link
               to="/agents"
               className="block px-3 py-2 text-gray-600 hover:text-mint-600"
               onClick={() => setIsOpen(false)}
@@ -57,11 +50,18 @@ const Navbar = () => {
               My Agents
             </Link>
             <Link
+              to="/proposals"
+              className="block px-3 py-2 text-gray-600 hover:text-mint-600"
+              onClick={() => setIsOpen(false)}
+            >
+              Proposals
+            </Link>
+            <Link
               to="/"
               className="block px-3 py-2 text-gray-600 hover:text-mint-600"
               onClick={() => setIsOpen(false)}
             >
-              Documentation
+              Whitepaper
             </Link>
           </div>
         </div>
