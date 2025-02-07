@@ -39,7 +39,12 @@ export default function CreateAgent() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    toast.success("Agent created successfully!");
+    // Mock contract address generation - in a real app this would come from the blockchain
+    const contractAddress = "0x" + Math.random().toString(16).slice(2).padEnd(40, '0');
+    toast.success("Agent created successfully!", {
+      description: `Contract Address: ${contractAddress}`,
+      duration: 5000,
+    });
   }
 
   return (

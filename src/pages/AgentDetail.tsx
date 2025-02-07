@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Database } from "lucide-react";
 
 export default function AgentDetail() {
   const { id } = useParams();
@@ -15,6 +15,7 @@ export default function AgentDetail() {
     voteNoConditions: "The proposal does not clearly demonstrate a return on investment (ROI) of at least 10% annually.",
     voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
     voteAbstainConditions: "The proposal's return on investment (ROI) cannot be accurately determined from the provided information.",
+    contractAddress: "0x1234567890123456789012345678901234567890",
   };
 
   return (
@@ -30,6 +31,14 @@ export default function AgentDetail() {
           <h1 className="text-4xl font-bold text-gray-900 mb-8">{agent.name}</h1>
 
           <div className="space-y-8">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Contract Address</h2>
+              <div className="flex items-center gap-2 text-gray-600 font-mono bg-gray-50 p-3 rounded-lg">
+                <Database className="w-4 h-4" />
+                {agent.contractAddress}
+              </div>
+            </div>
+
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Backstory</h2>
               <p className="text-gray-600 whitespace-pre-wrap">{agent.backstory}</p>
