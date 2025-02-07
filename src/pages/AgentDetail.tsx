@@ -72,23 +72,29 @@ export default function AgentDetail() {
             {/* Left Column - Agent Specifications */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Backstory</h2>
-                <p className="text-gray-600 whitespace-pre-wrap">{agent.backstory}</p>
-              </div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Voting Policy</h2>
+                
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Backstory</h3>
+                    <p className="text-gray-600 whitespace-pre-wrap">{agent.backstory}</p>
+                  </div>
 
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote NO Conditions</h2>
-                <p className="text-gray-600 whitespace-pre-wrap">{agent.voteNoConditions}</p>
-              </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Vote NO Conditions</h3>
+                    <p className="text-gray-600 whitespace-pre-wrap">{agent.voteNoConditions}</p>
+                  </div>
 
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote YES Conditions</h2>
-                <p className="text-gray-600 whitespace-pre-wrap">{agent.voteYesConditions}</p>
-              </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Vote YES Conditions</h3>
+                    <p className="text-gray-600 whitespace-pre-wrap">{agent.voteYesConditions}</p>
+                  </div>
 
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote ABSTAIN Conditions</h2>
-                <p className="text-gray-600 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Vote ABSTAIN Conditions</h3>
+                    <p className="text-gray-600 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
