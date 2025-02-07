@@ -48,46 +48,50 @@ const ProposalDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <div className="glass-card rounded-lg p-8">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-mint-100 text-mint-800">
+              <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                proposal.status === 'active' 
+                  ? 'bg-primary/20 text-primary border border-primary/30'
+                  : 'bg-gray-800/40 text-gray-400 border border-gray-600/30'
+              }`}>
                 Active Proposal
               </span>
-              <div className="flex items-center text-gray-500">
+              <div className="flex items-center text-muted-foreground">
                 <Calendar className="h-4 w-4 mr-1" />
                 {proposal.date}
               </div>
             </div>
             
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold gradient-text mb-4">
               {proposal.title}
             </h1>
             
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               {proposal.description}
             </p>
           </div>
 
-          <div className="border-t border-gray-200 pt-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Current Votes</h2>
+          <div className="border-t border-border pt-6">
+            <h2 className="text-xl font-semibold text-foreground mb-4">Current Votes</h2>
             
             <div className="space-y-4">
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="glass-card p-4">
                 <div className="flex justify-between mb-2">
-                  <span className="flex items-center text-green-600">
+                  <span className="flex items-center text-primary">
                     <Check className="h-4 w-4 mr-1" />
                     For
                   </span>
-                  <span className="font-medium">{proposal.votes.for.toLocaleString()}</span>
+                  <span className="font-medium text-foreground">{proposal.votes.for.toLocaleString()}</span>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-green-500 rounded-full"
+                    className="h-full bg-primary rounded-full"
                     style={{
                       width: `${(proposal.votes.for / (proposal.votes.for + proposal.votes.against)) * 100}%`,
                     }}
@@ -95,17 +99,17 @@ const ProposalDetail = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="glass-card p-4">
                 <div className="flex justify-between mb-2">
-                  <span className="flex items-center text-red-600">
+                  <span className="flex items-center text-destructive">
                     <X className="h-4 w-4 mr-1" />
                     Against
                   </span>
-                  <span className="font-medium">{proposal.votes.against.toLocaleString()}</span>
+                  <span className="font-medium text-foreground">{proposal.votes.against.toLocaleString()}</span>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-red-500 rounded-full"
+                    className="h-full bg-destructive rounded-full"
                     style={{
                       width: `${(proposal.votes.against / (proposal.votes.for + proposal.votes.against)) * 100}%`,
                     }}
@@ -115,35 +119,35 @@ const ProposalDetail = () => {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 mt-8 pt-6">
+          <div className="border-t border-border mt-8 pt-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <span className="text-sm text-gray-500">Created by</span>
-                <p className="font-medium text-gray-900">{proposal.creator}</p>
+                <span className="text-sm text-muted-foreground">Created by</span>
+                <p className="font-medium text-foreground">{proposal.creator}</p>
               </div>
               <div>
-                <span className="text-sm text-gray-500">Voting Ends</span>
-                <p className="font-medium text-gray-900">{proposal.endDate}</p>
+                <span className="text-sm text-muted-foreground">Voting Ends</span>
+                <p className="font-medium text-foreground">{proposal.endDate}</p>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-gray-200 mt-8 pt-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Agent Comments</h2>
+          <div className="border-t border-border mt-8 pt-6">
+            <h2 className="text-xl font-semibold gradient-text mb-6">Agent Comments</h2>
             <div className="space-y-6">
               {proposal.comments.map((comment) => (
-                <div key={comment.id} className="bg-gray-50 rounded-lg p-4">
+                <div key={comment.id} className="glass-card p-4">
                   <div className="flex items-start gap-3">
                     <div className="text-2xl">{comment.avatar}</div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-gray-900">{comment.agentName}</h3>
+                        <h3 className="font-semibold text-foreground">{comment.agentName}</h3>
                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                           comment.vote === 'for' 
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-primary/20 text-primary border border-primary/30'
                             : comment.vote === 'against'
-                            ? 'bg-red-100 text-red-800'
-                            : 'bg-gray-100 text-gray-800'
+                            ? 'bg-destructive/20 text-destructive border border-destructive/30'
+                            : 'bg-muted text-muted-foreground border border-muted/30'
                         }`}>
                           {comment.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
                           {comment.vote === 'against' && <X className="h-3 w-3 mr-1" />}
@@ -151,8 +155,8 @@ const ProposalDetail = () => {
                           {comment.vote.charAt(0).toUpperCase() + comment.vote.slice(1)}
                         </span>
                       </div>
-                      <p className="text-gray-600 text-sm mb-2">{comment.comment}</p>
-                      <span className="text-xs text-gray-500">{comment.timestamp}</span>
+                      <p className="text-muted-foreground text-sm mb-2">{comment.comment}</p>
+                      <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
                     </div>
                   </div>
                 </div>
@@ -166,3 +170,4 @@ const ProposalDetail = () => {
 };
 
 export default ProposalDetail;
+
