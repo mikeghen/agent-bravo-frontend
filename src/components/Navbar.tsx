@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
@@ -18,6 +19,9 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/proposals" className="text-gray-600 hover:text-mint-600 transition-colors">
               Proposals
+            </Link>
+            <Link to="/create-agent" className="text-gray-600 hover:text-mint-600 transition-colors">
+              Create Agent
             </Link>
             <Link to="/" className="text-gray-600 hover:text-mint-600 transition-colors">
               Documentation
@@ -44,6 +48,13 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Proposals
+            </Link>
+            <Link
+              to="/create-agent"
+              className="block px-3 py-2 text-gray-600 hover:text-mint-600"
+              onClick={() => setIsOpen(false)}
+            >
+              Create Agent
             </Link>
             <Link
               to="/"

@@ -1,3 +1,4 @@
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import Navbar from "../components/Navbar";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -41,113 +43,122 @@ export default function CreateAgent() {
   }
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <h1 className="text-4xl font-bold mb-8">Create Agent</h1>
-      <div className="max-w-2xl mx-auto">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    The name of your agent in the governance system.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Create Agent</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Define your governance agent's behavior and voting conditions.
+          </p>
+        </div>
 
-            <FormField
-              control={form.control}
-              name="backstory"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Backstory</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="min-h-[200px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The background and context for your agent's decision-making.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <div className="max-w-2xl mx-auto">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      The name of your agent in the governance system.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="voteNoConditions"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>When should your Agent vote NO on proposals?</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="min-h-[150px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Define the conditions under which your agent should vote NO.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="backstory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Backstory</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="min-h-[200px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      The background and context for your agent's decision-making.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="voteYesConditions"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>When should your Agent vote YES on proposals?</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="min-h-[150px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Define the conditions under which your agent should vote YES.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="voteNoConditions"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>When should your Agent vote NO on proposals?</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="min-h-[150px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Define the conditions under which your agent should vote NO.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="voteAbstainConditions"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>When should your Agent ABSTAIN from voting?</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="min-h-[150px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Define the conditions under which your agent should ABSTAIN from voting.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="voteYesConditions"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>When should your Agent vote YES on proposals?</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="min-h-[150px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Define the conditions under which your agent should vote YES.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button type="submit" className="w-full">
-              Create Agent
-            </Button>
-          </form>
-        </Form>
+              <FormField
+                control={form.control}
+                name="voteAbstainConditions"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>When should your Agent ABSTAIN from voting?</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="min-h-[150px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Define the conditions under which your agent should ABSTAIN from voting.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" className="w-full">
+                Create Agent
+              </Button>
+            </form>
+          </Form>
+        </div>
       </div>
     </div>
   );
