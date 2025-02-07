@@ -7,7 +7,7 @@ import TokenDetailsSection from "./token/TokenDetailsSection";
 
 const TokenPresale = () => {
   return (
-    <section className="py-12 bg-white"> {/* Reduced padding from py-20 to py-12 */}
+    <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-8">
           <h2 className="text-4xl font-bold text-gray-900">
@@ -21,7 +21,7 @@ const TokenPresale = () => {
             <div className="grid gap-6 md:grid-cols-4">
               <TokenStatsCard title="Current Price" value="$0.05" />
               <TokenStatsCard title="Current Supply" value="10K" />
-              <TokenStatsCard title="Monthly Mint" value="10K" />
+              <TokenStatsCard title="Emission Rate" value="10K/month" />
               <TokenStatsCard title="Initial Rate" value="100%" />
             </div>
 
