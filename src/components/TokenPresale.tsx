@@ -1,7 +1,6 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const TokenPresale = () => {
   // Calculate token supply data for 36 months
@@ -99,7 +98,6 @@ const TokenPresale = () => {
                       }}
                       labelFormatter={(month) => `Month ${month}`}
                     />
-                    <Legend />
                     <Line 
                       yAxisId="left"
                       type="monotone" 
@@ -144,4 +142,3 @@ const TokenPresale = () => {
 };
 
 export default TokenPresale;
-
