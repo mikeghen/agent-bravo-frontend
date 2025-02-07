@@ -16,22 +16,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  role: z.string().min(1, "Role is required"),
-  goal: z.string().min(1, "Goal is required"),
+  name: z.string().min(1, "Name is required"),
   backstory: z.string().min(1, "Backstory is required"),
-  reviewTaskDescription: z.string().min(1, "Review task description is required"),
-  expectedOutput: z.string().min(1, "Expected output is required"),
+  voteNoConditions: z.string().min(1, "Vote NO conditions are required"),
+  voteYesConditions: z.string().min(1, "Vote YES conditions are required"),
+  voteAbstainConditions: z.string().min(1, "Vote ABSTAIN conditions are required"),
 });
 
 export default function CreateAgent() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      role: "Agent Bravo",
-      goal: "Review governance proposals and cast votes on them. You need to provide an opinion of the proposal, your reasoning behind the opinion, and your vote.",
+      name: "Agent Bravo",
       backstory: "You're a seasoned delegate with experience reviewing governance proposals for Decentralized Autonomous Organizations (DAO).\nYou take a very return on investment (ROI) approach to governance for all proposals requesting funds from the treasury.\nYou will vote for proposals that clearly show how the funds will be used to generate a return on investment (ROI) for the DAO.\nYou benchmark the ROI against the cost depositing the funds to earn a yeild of 10% annually.\nProposals that show a return on investment (ROI) of 10% or more will be voted for.",
-      reviewTaskDescription: "Review the proposal and provide an opinion, reasoning, and vote based on the following policy:\n<Policy>\n{policy}\n</Policy>\n\n<Proposal>\n{proposal}\n</Proposal>",
-      expectedOutput: "A JSON object with the following fields:\n* `opinion`: The opinion of the agent.\n* `reasoning`: The reasoning behind the opinion.\n* `vote`: The vote of the agent (1 = for, 0 = against, -1 = abstain).",
+      voteNoConditions: "The proposal does not clearly demonstrate a return on investment (ROI) of at least 10% annually.",
+      voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
+      voteAbstainConditions: "The proposal's return on investment (ROI) cannot be accurately determined from the provided information.",
     },
   });
 
@@ -48,36 +48,15 @@ export default function CreateAgent() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="role"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter agent role" {...field} />
+                    <Input placeholder="Enter agent name" {...field} />
                   </FormControl>
                   <FormDescription>
-                    The role of your agent in the governance system.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="goal"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Goal</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Enter agent goal"
-                      className="min-h-[100px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The primary objective of your agent.
+                    The name of your agent in the governance system.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -107,19 +86,19 @@ export default function CreateAgent() {
 
             <FormField
               control={form.control}
-              name="reviewTaskDescription"
+              name="voteNoConditions"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Review Task Description</FormLabel>
+                  <FormLabel>When should your Agent vote NO on proposals?</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter review task description"
+                      placeholder="Enter conditions for NO votes"
                       className="min-h-[150px]"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    The description of how the agent should review proposals.
+                    Define the conditions under which your agent should vote NO.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -128,19 +107,40 @@ export default function CreateAgent() {
 
             <FormField
               control={form.control}
-              name="expectedOutput"
+              name="voteYesConditions"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expected Output</FormLabel>
+                  <FormLabel>When should your Agent vote YES on proposals?</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter expected output format"
+                      placeholder="Enter conditions for YES votes"
                       className="min-h-[150px]"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    The format of the output the agent should provide.
+                    Define the conditions under which your agent should vote YES.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="voteAbstainConditions"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>When should your Agent ABSTAIN from voting?</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter conditions for ABSTAIN votes"
+                      className="min-h-[150px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Define the conditions under which your agent should ABSTAIN from voting.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
