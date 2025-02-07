@@ -7,14 +7,18 @@ const TokenPresale = () => {
   // Calculate token supply data for 36 months
   const generateTokenData = () => {
     const data = [];
-    const initialSupply = 100000000; // 100M
-    const monthlyInflation = 10000; // 10K per month
+    const monthlyMint = 10000; // 10K tokens minted per month
 
     for (let month = 0; month <= 36; month++) {
+      const supply = monthlyMint * month;
+      // Calculate inflation rate as percentage
+      // For month 0, set inflation rate to 0 to avoid division by zero
+      const inflationRate = month === 0 ? 0 : (monthlyMint / supply) * 100;
+      
       data.push({
         month: month,
-        supply: initialSupply + (monthlyInflation * month),
-        inflation: monthlyInflation,
+        supply: supply,
+        inflationRate: inflationRate,
       });
     }
     return data;
@@ -41,15 +45,15 @@ const TokenPresale = () => {
               </div>
               <div className="p-4 rounded-lg bg-white">
                 <h3 className="font-semibold text-gray-600">Total Supply</h3>
-                <p className="text-2xl font-bold text-gray-900">100M</p>
+                <p className="text-2xl font-bold text-gray-900">10K</p>
               </div>
               <div className="p-4 rounded-lg bg-white">
-                <h3 className="font-semibold text-gray-600">Inflation Rate</h3>
-                <p className="text-2xl font-bold text-gray-900">10K/month</p>
+                <h3 className="font-semibold text-gray-600">Monthly Mint</h3>
+                <p className="text-2xl font-bold text-gray-900">10K</p>
               </div>
               <div className="p-4 rounded-lg bg-white">
-                <h3 className="font-semibold text-gray-600">Market Cap</h3>
-                <p className="text-2xl font-bold text-gray-900">$5M</p>
+                <h3 className="font-semibold text-gray-600">Initial Rate</h3>
+                <p className="text-2xl font-bold text-gray-900">100%</p>
               </div>
             </div>
 
@@ -61,37 +65,37 @@ const TokenPresale = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis 
                       dataKey="month" 
-                      label={{ value: 'Months', position: 'insideBottom', offset: -5 }}
+                      label={{ value: 'Months After Launch', position: 'insideBottom', offset: -5 }}
                     />
                     <YAxis 
                       yAxisId="left"
                       label={{ 
-                        value: 'Token Supply', 
+                        value: 'Token Supply (tokens)', 
                         angle: -90, 
                         position: 'insideLeft',
                         offset: 10
                       }}
-                      domain={['dataMin - 1000000', 'dataMax + 1000000']}
-                      tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
+                      domain={[0, 400000]}
+                      tickFormatter={(value) => `${value.toLocaleString()}`}
                     />
                     <YAxis 
                       yAxisId="right"
                       orientation="right"
                       label={{ 
-                        value: 'Monthly Inflation', 
+                        value: 'Inflation Rate (%)', 
                         angle: 90, 
                         position: 'insideRight',
                         offset: 10
                       }}
-                      domain={[0, 20000]}
-                      tickFormatter={(value) => `${value / 1000}K`}
+                      domain={[0, 100]}
+                      tickFormatter={(value) => `${value.toFixed(0)}%`}
                     />
                     <Tooltip 
                       formatter={(value: number, name: string) => {
                         if (name === 'Token Supply') {
-                          return [`${(value / 1000000).toFixed(2)}M`, name];
+                          return [`${value.toLocaleString()} tokens`, name];
                         }
-                        return [`${(value / 1000).toFixed(1)}K`, name];
+                        return [`${value.toFixed(2)}%`, 'Inflation Rate'];
                       }}
                       labelFormatter={(month) => `Month ${month}`}
                     />
@@ -100,16 +104,16 @@ const TokenPresale = () => {
                       yAxisId="left"
                       type="monotone" 
                       dataKey="supply" 
-                      stroke="#43b8a1" 
+                      stroke="#0066FF" 
                       name="Token Supply"
                       strokeWidth={2}
                     />
                     <Line 
                       yAxisId="right"
                       type="monotone" 
-                      dataKey="inflation" 
-                      stroke="#ff7c43" 
-                      name="Monthly Inflation"
+                      dataKey="inflationRate" 
+                      stroke="#FF0000" 
+                      name="Inflation Rate"
                       strokeWidth={2}
                     />
                   </LineChart>
@@ -140,4 +144,3 @@ const TokenPresale = () => {
 };
 
 export default TokenPresale;
-
