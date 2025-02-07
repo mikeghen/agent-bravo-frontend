@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
-import { ArrowLeft, Database } from "lucide-react";
+import { ArrowLeft, Database, Check, X, CircleDot } from "lucide-react";
 
 export default function AgentDetail() {
   const { id } = useParams();
@@ -16,6 +16,29 @@ export default function AgentDetail() {
     voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
     voteAbstainConditions: "The proposal's return on investment (ROI) cannot be accurately determined from the provided information.",
     contractAddress: "0x1234567890123456789012345678901234567890",
+    votingHistory: [
+      {
+        id: 1,
+        proposalTitle: "Upgrade Protocol Parameters",
+        vote: "for",
+        timestamp: "2024-02-21 14:30",
+        comment: "The proposed parameter adjustments show a clear ROI potential of 15% through increased TVL while maintaining conservative risk levels. This aligns perfectly with our voting criteria for risk-adjusted returns.",
+      },
+      {
+        id: 2,
+        proposalTitle: "Implement New Liquidation Module",
+        vote: "against",
+        timestamp: "2024-02-15 09:45",
+        comment: "While the liquidation module upgrade is well-intentioned, our analysis indicates the projected ROI falls short of our 10% threshold. Implementation costs and reduced capital efficiency would result in approximately 7% annual returns.",
+      },
+      {
+        id: 3,
+        proposalTitle: "Launch Governance Token Staking",
+        vote: "abstain",
+        timestamp: "2024-02-10 16:20",
+        comment: "The staking mechanism's ROI potential cannot be accurately quantified due to variable market conditions and incomplete tokenomics data. We require additional information to make an informed decision.",
+      },
+    ],
   };
 
   return (
@@ -57,6 +80,37 @@ export default function AgentDetail() {
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote ABSTAIN Conditions</h2>
               <p className="text-gray-600 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">Voting History</h2>
+              <div className="space-y-4">
+                {agent.votingHistory.map((vote) => (
+                  <div key={vote.id} className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="font-medium text-gray-900">{vote.proposalTitle}</h3>
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                            vote.vote === 'for' 
+                              ? 'bg-green-100 text-green-800'
+                              : vote.vote === 'against'
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {vote.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
+                            {vote.vote === 'against' && <X className="h-3 w-3 mr-1" />}
+                            {vote.vote === 'abstain' && <CircleDot className="h-3 w-3 mr-1" />}
+                            {vote.vote.charAt(0).toUpperCase() + vote.vote.slice(1)}
+                          </span>
+                        </div>
+                        <p className="text-gray-600 text-sm mb-2">{vote.comment}</p>
+                        <span className="text-xs text-gray-500">{vote.timestamp}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <Link to={`/agents/${id}/edit`}>
