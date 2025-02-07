@@ -44,13 +44,13 @@ const agents = [
 
 export default function MyAgents() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">My Agents</h1>
+          <h1 className="text-4xl font-bold gradient-text">My Agents</h1>
           <Link to="/create-agent">
-            <Button className="gap-2 bg-mint-600 hover:bg-mint-700">
+            <Button className="gap-2 bg-primary hover:bg-primary/80 text-primary-foreground">
               <Plus size={20} />
               Create Agent
             </Button>
@@ -62,39 +62,39 @@ export default function MyAgents() {
             <Link
               key={agent.id}
               to={`/agents/${agent.id}`}
-              className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:border-mint-200 transition-colors"
+              className="glass-card p-6 rounded-lg hover:neon-border transition-all duration-300"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-4">
-                  <Avatar className="h-12 w-12 bg-mint-50">
-                    <AvatarFallback className="bg-mint-50">
-                      {agent.name === "InvestoTron Capital" && <Brain className="h-6 w-6 text-mint-600" />}
-                      {agent.name === "CreditSage AI" && <LineChart className="h-6 w-6 text-mint-600" />}
-                      {agent.name === "LiquidityOracle" && <Shield className="h-6 w-6 text-mint-600" />}
+                  <Avatar className="h-12 w-12 bg-primary/20">
+                    <AvatarFallback className="bg-primary/20">
+                      {agent.name === "InvestoTron Capital" && <Brain className="h-6 w-6 text-primary" />}
+                      {agent.name === "CreditSage AI" && <LineChart className="h-6 w-6 text-primary" />}
+                      {agent.name === "LiquidityOracle" && <Shield className="h-6 w-6 text-primary" />}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <h2 className="text-xl font-semibold text-gray-900">{agent.name}</h2>
-                    <p className="text-gray-600 mt-1 line-clamp-2">{agent.backstory}</p>
+                    <h2 className="text-xl font-semibold text-foreground">{agent.name}</h2>
+                    <p className="text-muted-foreground mt-1 line-clamp-2">{agent.backstory}</p>
                   </div>
                 </div>
                 <div className="flex gap-6">
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-mint-600">{agent.stats.totalOpinions}</p>
-                    <p className="text-sm text-gray-600">Total Opinions</p>
+                    <p className="text-2xl font-bold text-primary">{agent.stats.totalOpinions}</p>
+                    <p className="text-sm text-muted-foreground">Total Opinions</p>
                   </div>
                   <div className="flex gap-4 items-start">
                     <div className="text-center">
-                      <p className="text-lg font-semibold text-mint-600">{agent.stats.votesYes}</p>
-                      <p className="text-xs text-gray-600">Yes</p>
+                      <p className="text-lg font-semibold text-primary">{agent.stats.votesYes}</p>
+                      <p className="text-xs text-muted-foreground">Yes</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-lg font-semibold text-red-600">{agent.stats.votesNo}</p>
-                      <p className="text-xs text-gray-600">No</p>
+                      <p className="text-lg font-semibold text-destructive">{agent.stats.votesNo}</p>
+                      <p className="text-xs text-muted-foreground">No</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-lg font-semibold text-gray-600">{agent.stats.votesAbstain}</p>
-                      <p className="text-xs text-gray-600">Abstain</p>
+                      <p className="text-lg font-semibold text-muted-foreground">{agent.stats.votesAbstain}</p>
+                      <p className="text-xs text-muted-foreground">Abstain</p>
                     </div>
                   </div>
                 </div>
@@ -106,3 +106,4 @@ export default function MyAgents() {
     </div>
   );
 }
+
