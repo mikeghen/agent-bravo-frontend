@@ -1,3 +1,4 @@
+
 const Roadmap = () => {
   const milestones = [
     {
@@ -39,11 +40,11 @@ const Roadmap = () => {
   ];
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-8 mb-16">
-          <h2 className="text-4xl font-bold text-gray-900">Roadmap</h2>
-          <p className="max-w-2xl mx-auto text-xl text-gray-600">
+          <h2 className="text-4xl font-bold gradient-text">Roadmap</h2>
+          <p className="max-w-2xl mx-auto text-xl text-muted-foreground">
             Our vision for the future of decentralized governance
           </p>
         </div>
@@ -52,16 +53,16 @@ const Roadmap = () => {
           {milestones.map((milestone, index) => (
             <div 
               key={milestone.quarter}
-              className="relative p-6 bg-mint-50 rounded-xl hover:shadow-lg transition-shadow"
+              className="relative p-6 glass-card rounded-xl transition-all duration-300 hover:neon-border"
             >
               <div className="space-y-4">
-                <span className="inline-block px-3 py-1 bg-mint-100 text-mint-800 rounded-full text-sm font-medium">
+                <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium">
                   {milestone.quarter}
                 </span>
-                <h3 className="text-xl font-semibold text-gray-900">
+                <h3 className="text-xl font-semibold text-foreground">
                   {milestone.title}
                 </h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-muted-foreground">
                   {milestone.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="flex items-start">
                       <span className="mr-2">•</span>
