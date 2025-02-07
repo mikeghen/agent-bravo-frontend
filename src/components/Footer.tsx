@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -13,7 +12,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/" className="text-gray-600 hover:text-mint-600">
+                <Link to="/about" className="text-gray-600 hover:text-mint-600">
                   About Us
                 </Link>
               </li>

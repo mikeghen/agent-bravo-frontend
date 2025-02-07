@@ -11,6 +11,7 @@ import CreateAgent from "./pages/CreateAgent";
 import MyAgents from "./pages/MyAgents";
 import AgentDetail from "./pages/AgentDetail";
 import EditAgent from "./pages/EditAgent";
+import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<AboutUs />} />
           <Route path="/proposals" element={<Proposals />} />
           <Route path="/proposals/:id" element={<ProposalDetail />} />
           <Route path="/agents" element={<MyAgents />} />
