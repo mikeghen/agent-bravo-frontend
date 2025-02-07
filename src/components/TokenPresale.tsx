@@ -22,7 +22,7 @@ const TokenPresale = () => {
               <TokenStatsCard title="Current Price" value="$0.05" />
               <TokenStatsCard title="Current Supply" value="10K" />
               <TokenStatsCard title="Emission Rate" value="10K/month" />
-              <TokenStatsCard title="Initial Rate" value="100%" />
+              <TokenStatsCard title="Market Cap" value="$500" />
             </div>
 
             <TokenomicsChart />
