@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
@@ -80,19 +79,19 @@ export default function AgentDetail() {
                     <p className="text-mint-50 whitespace-pre-wrap">{agent.backstory}</p>
                   </div>
 
-                  <div className="bg-mint-800 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-white mb-2">Vote NO Conditions</h3>
-                    <p className="text-mint-50 whitespace-pre-wrap">{agent.voteNoConditions}</p>
+                  <div className="bg-red-100 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-red-800 mb-2">Vote NO Conditions</h3>
+                    <p className="text-red-700 whitespace-pre-wrap">{agent.voteNoConditions}</p>
                   </div>
 
-                  <div className="bg-mint-800 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-white mb-2">Vote YES Conditions</h3>
-                    <p className="text-mint-50 whitespace-pre-wrap">{agent.voteYesConditions}</p>
+                  <div className="bg-mint-100 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-mint-800 mb-2">Vote YES Conditions</h3>
+                    <p className="text-mint-700 whitespace-pre-wrap">{agent.voteYesConditions}</p>
                   </div>
 
-                  <div className="bg-mint-800 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-white mb-2">Vote ABSTAIN Conditions</h3>
-                    <p className="text-mint-50 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
+                  <div className="bg-gray-100 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Vote ABSTAIN Conditions</h3>
+                    <p className="text-gray-700 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
                   </div>
                 </div>
               </div>
@@ -135,4 +134,3 @@ export default function AgentDetail() {
     </div>
   );
 }
-
