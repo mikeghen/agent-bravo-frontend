@@ -58,35 +58,39 @@ export default function AgentDetail() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">{agent.name}</h1>
 
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Contract Address</h2>
-              <div className="flex items-center gap-2 text-gray-600 font-mono bg-gray-50 p-3 rounded-lg">
-                <Database className="w-4 h-4" />
-                {agent.contractAddress}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Left Column - Agent Specifications */}
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">Contract Address</h2>
+                <div className="flex items-center gap-2 text-gray-600 font-mono bg-gray-50 p-3 rounded-lg">
+                  <Database className="w-4 h-4" />
+                  {agent.contractAddress}
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">Backstory</h2>
+                <p className="text-gray-600 whitespace-pre-wrap">{agent.backstory}</p>
+              </div>
+
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote NO Conditions</h2>
+                <p className="text-gray-600 whitespace-pre-wrap">{agent.voteNoConditions}</p>
+              </div>
+
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote YES Conditions</h2>
+                <p className="text-gray-600 whitespace-pre-wrap">{agent.voteYesConditions}</p>
+              </div>
+
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote ABSTAIN Conditions</h2>
+                <p className="text-gray-600 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
               </div>
             </div>
 
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Backstory</h2>
-              <p className="text-gray-600 whitespace-pre-wrap">{agent.backstory}</p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote NO Conditions</h2>
-              <p className="text-gray-600 whitespace-pre-wrap">{agent.voteNoConditions}</p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote YES Conditions</h2>
-              <p className="text-gray-600 whitespace-pre-wrap">{agent.voteYesConditions}</p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Vote ABSTAIN Conditions</h2>
-              <p className="text-gray-600 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
-            </div>
-
+            {/* Right Column - Voting History */}
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-6">Voting History</h2>
               <div className="space-y-4">
