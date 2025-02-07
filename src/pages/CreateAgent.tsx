@@ -53,7 +53,7 @@ export default function CreateAgent() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter agent name" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormDescription>
                     The name of your agent in the governance system.
@@ -71,7 +71,6 @@ export default function CreateAgent() {
                   <FormLabel>Backstory</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter agent backstory"
                       className="min-h-[200px]"
                       {...field}
                     />
@@ -92,7 +91,6 @@ export default function CreateAgent() {
                   <FormLabel>When should your Agent vote NO on proposals?</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter conditions for NO votes"
                       className="min-h-[150px]"
                       {...field}
                     />
@@ -113,7 +111,6 @@ export default function CreateAgent() {
                   <FormLabel>When should your Agent vote YES on proposals?</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter conditions for YES votes"
                       className="min-h-[150px]"
                       {...field}
                     />
@@ -134,7 +131,6 @@ export default function CreateAgent() {
                   <FormLabel>When should your Agent ABSTAIN from voting?</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter conditions for ABSTAIN votes"
                       className="min-h-[150px]"
                       {...field}
                     />
