@@ -9,11 +9,9 @@ const TokenPresale = () => {
     const data = [];
     const monthlyMint = 10000; // 10K tokens minted per month
 
-    for (let month = 0; month <= 36; month++) {
+    for (let month = 1; month <= 36; month++) {
       const supply = monthlyMint * month;
-      // Calculate inflation rate as percentage
-      // For month 0, set inflation rate to 0 to avoid division by zero
-      const inflationRate = month === 0 ? 0 : (monthlyMint / supply) * 100;
+      const inflationRate = (monthlyMint / supply) * 100;
       
       data.push({
         month: month,
@@ -65,16 +63,17 @@ const TokenPresale = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis 
                       dataKey="month" 
-                      label={{ value: 'Months After Launch', position: 'insideBottom', offset: -5 }}
+                      label={{ value: 'Months', position: 'bottom', offset: -5 }}
+                      tickLine={false}
                     />
                     <YAxis 
                       yAxisId="left"
                       label={{ 
-                        value: 'Token Supply (tokens)', 
+                        value: 'Token Supply', 
                         angle: -90, 
-                        position: 'insideLeft',
-                        offset: 10
+                        position: 'insideLeft'
                       }}
+                      tickLine={false}
                       domain={[0, 400000]}
                       tickFormatter={(value) => `${value.toLocaleString()}`}
                     />
@@ -82,11 +81,11 @@ const TokenPresale = () => {
                       yAxisId="right"
                       orientation="right"
                       label={{ 
-                        value: 'Inflation Rate (%)', 
+                        value: 'Inflation Rate', 
                         angle: 90, 
-                        position: 'insideRight',
-                        offset: 10
+                        position: 'insideRight'
                       }}
+                      tickLine={false}
                       domain={[0, 100]}
                       tickFormatter={(value) => `${value.toFixed(0)}%`}
                     />
@@ -104,7 +103,7 @@ const TokenPresale = () => {
                       yAxisId="left"
                       type="monotone" 
                       dataKey="supply" 
-                      stroke="#0066FF" 
+                      stroke="#22C55E" 
                       name="Token Supply"
                       strokeWidth={2}
                     />
@@ -112,7 +111,7 @@ const TokenPresale = () => {
                       yAxisId="right"
                       type="monotone" 
                       dataKey="inflationRate" 
-                      stroke="#FF0000" 
+                      stroke="#6B7280" 
                       name="Inflation Rate"
                       strokeWidth={2}
                     />
@@ -144,3 +143,4 @@ const TokenPresale = () => {
 };
 
 export default TokenPresale;
+
