@@ -1,8 +1,27 @@
 
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const TokenPresale = () => {
+  // Calculate token supply data for 36 months
+  const generateTokenData = () => {
+    const data = [];
+    const initialSupply = 100000000; // 100M
+    const monthlyInflation = 10000; // 10K per month
+
+    for (let month = 0; month <= 36; month++) {
+      data.push({
+        month: month,
+        supply: initialSupply + (monthlyInflation * month),
+        inflation: monthlyInflation,
+      });
+    }
+    return data;
+  };
+
+  const tokenData = generateTokenData();
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,6 +50,46 @@ const TokenPresale = () => {
               <div className="p-4 rounded-lg bg-white">
                 <h3 className="font-semibold text-gray-600">Market Cap</h3>
                 <p className="text-2xl font-bold text-gray-900">$5M</p>
+              </div>
+            </div>
+
+            <div className="mt-8 bg-white p-6 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Tokenomics</h3>
+              <div className="h-[400px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={tokenData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      dataKey="month" 
+                      label={{ value: 'Months', position: 'insideBottom', offset: -5 }}
+                    />
+                    <YAxis 
+                      label={{ 
+                        value: 'Token Supply', 
+                        angle: -90, 
+                        position: 'insideLeft',
+                        offset: 10
+                      }}
+                      domain={['dataMin - 1000000', 'dataMax + 1000000']}
+                      tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
+                    />
+                    <Tooltip 
+                      formatter={(value: number) => [
+                        `${(value / 1000000).toFixed(2)}M`, 
+                        'Token Supply'
+                      ]}
+                      labelFormatter={(month) => `Month ${month}`}
+                    />
+                    <Legend />
+                    <Line 
+                      type="monotone" 
+                      dataKey="supply" 
+                      stroke="#43b8a1" 
+                      name="Token Supply"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
             
