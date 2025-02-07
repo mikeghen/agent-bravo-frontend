@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
@@ -73,13 +72,9 @@ export default function AgentDetail() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">Voting Policy</h2>
+                <p className="text-gray-700 mb-6 whitespace-pre-wrap">{agent.backstory}</p>
                 
                 <div className="space-y-6">
-                  <div className="bg-white border border-gray-900 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Backstory</h3>
-                    <p className="text-gray-900 whitespace-pre-wrap">{agent.backstory}</p>
-                  </div>
-
                   <div className="bg-red-100 p-6 rounded-lg">
                     <h3 className="text-lg font-semibold text-red-800 mb-2">Vote NO Conditions</h3>
                     <p className="text-red-700 whitespace-pre-wrap">{agent.voteNoConditions}</p>
