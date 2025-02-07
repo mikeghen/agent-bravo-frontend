@@ -9,9 +9,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <Hero />
-      <TokenPresale />
-      <Roadmap />
+      <div className="space-y-24"> {/* Add consistent 96px spacing between sections */}
+        <Hero />
+        <TokenPresale />
+        <Roadmap />
+      </div>
       <Footer />
     </div>
   );
