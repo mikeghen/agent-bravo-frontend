@@ -56,8 +56,8 @@ const TokenDetailsSection = () => {
             isUtility={true}
           />
           <DetailCard
-            title="Agent Management"
-            description="Use BRAVO tokens as payment for managing Agent Bravo instances"
+            title="Build Reputation"
+            description="Have a voice and a vote on the future of the Agent Bravo Framework"
             isUtility={true}
           />
         </div>
