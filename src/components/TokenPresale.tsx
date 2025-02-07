@@ -20,7 +20,7 @@ const TokenPresale = () => {
           <div className="max-w-4xl mx-auto bg-mint-50 rounded-2xl shadow-lg p-8">
             <div className="grid gap-6 md:grid-cols-4">
               <TokenStatsCard title="Current Price" value="$0.05" />
-              <TokenStatsCard title="Total Supply" value="10K" />
+              <TokenStatsCard title="Current Supply" value="10K" />
               <TokenStatsCard title="Monthly Mint" value="10K" />
               <TokenStatsCard title="Initial Rate" value="100%" />
             </div>
