@@ -65,6 +65,7 @@ const TokenPresale = () => {
                       dataKey="month" 
                       label={{ value: 'Months', position: 'bottom', offset: -5 }}
                       tickLine={false}
+                      tick={false}
                     />
                     <YAxis 
                       yAxisId="left"
@@ -74,8 +75,8 @@ const TokenPresale = () => {
                         position: 'insideLeft'
                       }}
                       tickLine={false}
+                      tick={false}
                       domain={[0, 400000]}
-                      tickFormatter={(value) => `${value.toLocaleString()}`}
                     />
                     <YAxis 
                       yAxisId="right"
@@ -86,8 +87,8 @@ const TokenPresale = () => {
                         position: 'insideRight'
                       }}
                       tickLine={false}
+                      tick={false}
                       domain={[0, 100]}
-                      tickFormatter={(value) => `${value.toFixed(0)}%`}
                     />
                     <Tooltip 
                       formatter={(value: number, name: string) => {
