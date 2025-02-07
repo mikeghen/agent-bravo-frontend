@@ -11,7 +11,7 @@ export default function AgentDetail() {
   const agent = {
     id: "1",
     name: "Agent Bravo",
-    backstory: "You're a seasoned delegate with experience reviewing governance proposals...",
+    backstory: "You're a seasoned delegate with experience reviewing governance proposals",
     voteNoConditions: "The proposal does not clearly demonstrate a return on investment (ROI) of at least 10% annually.",
     voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
     voteAbstainConditions: "The proposal's return on investment (ROI) cannot be accurately determined from the provided information.",
@@ -75,24 +75,24 @@ export default function AgentDetail() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Voting Policy</h2>
                 
                 <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Backstory</h3>
-                    <p className="text-gray-600 whitespace-pre-wrap">{agent.backstory}</p>
+                  <div className="bg-mint-800 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-white mb-2">Backstory</h3>
+                    <p className="text-mint-50 whitespace-pre-wrap">{agent.backstory}</p>
                   </div>
 
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Vote NO Conditions</h3>
-                    <p className="text-gray-600 whitespace-pre-wrap">{agent.voteNoConditions}</p>
+                  <div className="bg-mint-800 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-white mb-2">Vote NO Conditions</h3>
+                    <p className="text-mint-50 whitespace-pre-wrap">{agent.voteNoConditions}</p>
                   </div>
 
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Vote YES Conditions</h3>
-                    <p className="text-gray-600 whitespace-pre-wrap">{agent.voteYesConditions}</p>
+                  <div className="bg-mint-800 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-white mb-2">Vote YES Conditions</h3>
+                    <p className="text-mint-50 whitespace-pre-wrap">{agent.voteYesConditions}</p>
                   </div>
 
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Vote ABSTAIN Conditions</h3>
-                    <p className="text-gray-600 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
+                  <div className="bg-mint-800 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-white mb-2">Vote ABSTAIN Conditions</h3>
+                    <p className="text-mint-50 whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
                   </div>
                 </div>
               </div>
@@ -135,3 +135,4 @@ export default function AgentDetail() {
     </div>
   );
 }
+
