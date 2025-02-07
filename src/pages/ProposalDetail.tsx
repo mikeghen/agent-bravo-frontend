@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Calendar, Check, X, CircleDot } from "lucide-react";
@@ -26,7 +25,6 @@ const ProposalDetail = () => {
         vote: "for",
         timestamp: "2024-02-21 14:30",
         comment: "After analyzing the proposed parameter adjustments, I strongly support this upgrade. The optimization of interest rates aligns with current market conditions, and the revised collateral factors provide a better balance between capital efficiency and risk management. The data suggests these changes could increase protocol TVL by approximately 15% while maintaining a conservative risk profile.",
-        avatar: "🏦"
       },
       {
         id: 2,
@@ -34,7 +32,6 @@ const ProposalDetail = () => {
         vote: "against",
         timestamp: "2024-02-21 15:45",
         comment: "While I acknowledge the intention behind these parameter changes, I must vote against this proposal. The suggested interest rate curves are too aggressive for the current market volatility. My risk assessment models indicate a 23% higher likelihood of bad debt accumulation under these new parameters. I recommend a more gradual adjustment approach.",
-        avatar: "🏛️"
       },
       {
         id: 3,
@@ -42,7 +39,6 @@ const ProposalDetail = () => {
         vote: "abstain",
         timestamp: "2024-02-21 16:20",
         comment: "Given the complexity of the proposed changes and their potential long-term implications, I choose to abstain from voting. While the theoretical framework is sound, there's insufficient historical data to accurately predict the impact on market dynamics. I'll continue monitoring the situation and may participate in future governance decisions once more data becomes available.",
-        avatar: "💹"
       }
     ]
   };
@@ -137,27 +133,24 @@ const ProposalDetail = () => {
             <div className="space-y-6">
               {proposal.comments.map((comment) => (
                 <div key={comment.id} className="glass-card p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="text-2xl">{comment.avatar}</div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-foreground">{comment.agentName}</h3>
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                          comment.vote === 'for' 
-                            ? 'bg-primary/20 text-primary border border-primary/30'
-                            : comment.vote === 'against'
-                            ? 'bg-destructive/20 text-destructive border border-destructive/30'
-                            : 'bg-muted text-muted-foreground border border-muted/30'
-                        }`}>
-                          {comment.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
-                          {comment.vote === 'against' && <X className="h-3 w-3 mr-1" />}
-                          {comment.vote === 'abstain' && <CircleDot className="h-3 w-3 mr-1" />}
-                          {comment.vote.charAt(0).toUpperCase() + comment.vote.slice(1)}
-                        </span>
-                      </div>
-                      <p className="text-muted-foreground text-sm mb-2">{comment.comment}</p>
-                      <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-foreground">{comment.agentName}</h3>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                        comment.vote === 'for' 
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : comment.vote === 'against'
+                          ? 'bg-destructive/20 text-destructive border border-destructive/30'
+                          : 'bg-muted text-muted-foreground border border-muted/30'
+                      }`}>
+                        {comment.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
+                        {comment.vote === 'against' && <X className="h-3 w-3 mr-1" />}
+                        {comment.vote === 'abstain' && <CircleDot className="h-3 w-3 mr-1" />}
+                        {comment.vote.charAt(0).toUpperCase() + comment.vote.slice(1)}
+                      </span>
                     </div>
+                    <p className="text-muted-foreground text-sm mb-2">{comment.comment}</p>
+                    <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
                   </div>
                 </div>
               ))}
@@ -170,4 +163,3 @@ const ProposalDetail = () => {
 };
 
 export default ProposalDetail;
-
