@@ -46,12 +46,12 @@ export default function AgentDetail() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="flex justify-between items-center mb-8">
-          <Link to="/agents" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900">
+          <Link to="/agents" className="inline-flex items-center gap-2 text-mint-600 hover:text-mint-700">
             <ArrowLeft className="w-4 h-4" />
             Back to Agents
           </Link>
           <Link to={`/agents/${id}/edit`}>
-            <Button>Edit Agent</Button>
+            <Button className="bg-mint-600 hover:bg-mint-700">Edit Agent</Button>
           </Link>
         </div>
 
@@ -62,7 +62,7 @@ export default function AgentDetail() {
               href={`https://sepolia.etherscan.io/address/${agent.contractAddress}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-mint-600 hover:text-mint-700"
             >
               <ExternalLink className="w-5 h-5" />
             </a>
@@ -104,7 +104,7 @@ export default function AgentDetail() {
                           <h3 className="font-medium text-gray-900">{vote.proposalTitle}</h3>
                           <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                             vote.vote === 'for' 
-                              ? 'bg-green-100 text-green-800'
+                              ? 'bg-mint-100 text-mint-800'
                               : vote.vote === 'against'
                               ? 'bg-red-100 text-red-800'
                               : 'bg-gray-100 text-gray-800'

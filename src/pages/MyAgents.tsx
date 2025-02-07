@@ -50,7 +50,7 @@ export default function MyAgents() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900">My Agents</h1>
           <Link to="/create-agent">
-            <Button className="gap-2">
+            <Button className="gap-2 bg-mint-600 hover:bg-mint-700">
               <Plus size={20} />
               Create Agent
             </Button>
@@ -62,15 +62,15 @@ export default function MyAgents() {
             <Link
               key={agent.id}
               to={`/agents/${agent.id}`}
-              className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:border-gray-300 transition-colors"
+              className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:border-mint-200 transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-4">
-                  <Avatar className="h-12 w-12 bg-blue-50">
-                    <AvatarFallback className="bg-blue-50">
-                      {agent.name === "InvestoTron Capital" && <Brain className="h-6 w-6 text-blue-600" />}
-                      {agent.name === "CreditSage AI" && <LineChart className="h-6 w-6 text-blue-600" />}
-                      {agent.name === "LiquidityOracle" && <Shield className="h-6 w-6 text-blue-600" />}
+                  <Avatar className="h-12 w-12 bg-mint-50">
+                    <AvatarFallback className="bg-mint-50">
+                      {agent.name === "InvestoTron Capital" && <Brain className="h-6 w-6 text-mint-600" />}
+                      {agent.name === "CreditSage AI" && <LineChart className="h-6 w-6 text-mint-600" />}
+                      {agent.name === "LiquidityOracle" && <Shield className="h-6 w-6 text-mint-600" />}
                     </AvatarFallback>
                   </Avatar>
                   <div>
@@ -80,12 +80,12 @@ export default function MyAgents() {
                 </div>
                 <div className="flex gap-6">
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-gray-900">{agent.stats.totalOpinions}</p>
+                    <p className="text-2xl font-bold text-mint-600">{agent.stats.totalOpinions}</p>
                     <p className="text-sm text-gray-600">Total Opinions</p>
                   </div>
                   <div className="flex gap-4 items-start">
                     <div className="text-center">
-                      <p className="text-lg font-semibold text-green-600">{agent.stats.votesYes}</p>
+                      <p className="text-lg font-semibold text-mint-600">{agent.stats.votesYes}</p>
                       <p className="text-xs text-gray-600">Yes</p>
                     </div>
                     <div className="text-center">
