@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +23,6 @@ const Navbar = () => {
             <Link to="/proposals" className="text-gray-400 hover:text-primary transition-colors">
               Proposals
             </Link>
-            <ConnectButton />
           </div>
 
           <div className="md:hidden flex items-center">
@@ -55,9 +53,6 @@ const Navbar = () => {
             >
               Proposals
             </Link>
-            <div className="px-3 py-2">
-              <ConnectButton />
-            </div>
           </div>
         </div>
       )}
