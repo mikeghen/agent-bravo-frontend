@@ -76,9 +76,9 @@ export default function AgentDetail() {
                 <p className="text-muted-foreground mb-6 whitespace-pre-wrap">{agent.backstory}</p>
                 
                 <div className="space-y-6">
-                  <div className="bg-destructive/20 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-destructive mb-2">Vote NO Conditions</h3>
-                    <p className="text-destructive/90 whitespace-pre-wrap">{agent.voteNoConditions}</p>
+                  <div className="bg-[#F97316]/20 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold text-[#F97316] mb-2">Vote NO Conditions</h3>
+                    <p className="text-[#F97316]/90 whitespace-pre-wrap">{agent.voteNoConditions}</p>
                   </div>
 
                   <div className="bg-primary/20 p-6 rounded-lg">
@@ -108,7 +108,7 @@ export default function AgentDetail() {
                             vote.vote === 'for' 
                               ? 'bg-primary/20 text-primary'
                               : vote.vote === 'against'
-                              ? 'bg-destructive/20 text-destructive'
+                              ? 'bg-[#F97316]/20 text-[#F97316]'
                               : 'bg-muted text-muted-foreground'
                           }`}>
                             {vote.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
