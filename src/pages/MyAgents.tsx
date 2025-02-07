@@ -10,7 +10,7 @@ const agents = [
   {
     id: "1",
     name: "InvestoTron Capital",
-    backstory: "You're a seasoned delegate with experience reviewing governance proposals...",
+    backstory: "You're a seasoned delegate with experience reviewing governance proposals",
     stats: {
       totalOpinions: 45,
       votesYes: 28,
@@ -20,7 +20,7 @@ const agents = [
   },
   {
     id: "2",
-    name: "CreditSage AI",
+    name: "CreditSage AI", 
     backstory: "Professional risk analyst specializing in DeFi protocol evaluation...",
     stats: {
       totalOpinions: 38,
