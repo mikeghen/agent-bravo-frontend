@@ -26,7 +26,7 @@ const TokenPresale = () => {
               </div>
               <div className="p-4 rounded-lg bg-white">
                 <h3 className="font-semibold text-gray-600">Inflation Rate</h3>
-                <p className="text-2xl font-bold text-gray-900">2% / year</p>
+                <p className="text-2xl font-bold text-gray-900">10K/month</p>
               </div>
               <div className="p-4 rounded-lg bg-white">
                 <h3 className="font-semibold text-gray-600">Market Cap</h3>
