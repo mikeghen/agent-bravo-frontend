@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
@@ -64,7 +63,7 @@ export default function AgentDetail() {
                   <Brain className="h-6 w-6 text-primary" />
                 </AvatarFallback>
               </Avatar>
-              <h1 className="text-4xl font-bold gradient-text">{agent.name}</h1>
+              <h1 className="text-4xl font-bold text-white">{agent.name}</h1>
             </div>
             <a 
               href={`https://sepolia.etherscan.io/address/${agent.contractAddress}`}
@@ -77,7 +76,6 @@ export default function AgentDetail() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left Column - Agent Specifications */}
             <div className="space-y-8">
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-6">Voting Policy</h2>
@@ -102,7 +100,6 @@ export default function AgentDetail() {
               </div>
             </div>
 
-            {/* Right Column - Voting History */}
             <div>
               <h2 className="text-xl font-semibold text-foreground mb-6">Voting History</h2>
               <div className="space-y-4">

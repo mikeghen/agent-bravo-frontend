@@ -77,7 +77,7 @@ export default function EditAgent() {
                   <Brain className="h-6 w-6 text-primary" />
                 </AvatarFallback>
               </Avatar>
-              <h1 className="text-4xl font-bold gradient-text">Edit {agent.name}</h1>
+              <h1 className="text-4xl font-bold text-white">Edit {agent.name}</h1>
             </div>
           </div>
 

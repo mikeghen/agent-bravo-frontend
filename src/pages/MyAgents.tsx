@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -48,7 +47,7 @@ export default function MyAgents() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold gradient-text">My Agents</h1>
+          <h1 className="text-4xl font-bold text-white">My Agents</h1>
           <Link to="/create-agent">
             <Button className="gap-2 bg-primary hover:bg-primary/80 text-primary-foreground">
               <Plus size={20} />
@@ -106,4 +105,3 @@ export default function MyAgents() {
     </div>
   );
 }
-
