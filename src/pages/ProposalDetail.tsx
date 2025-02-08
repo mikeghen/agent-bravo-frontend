@@ -1,82 +1,152 @@
-
 import { useParams } from "react-router-dom";
+import { useReadContract } from "wagmi";
 import Navbar from "../components/Navbar";
 import { Calendar, Check, X, CircleDot } from "lucide-react";
+import { CONTRACTS } from "../config/contracts";
 
 const ProposalDetail = () => {
+  // Get the proposal index from the URL params.
   const { id } = useParams();
+  const proposalIndex = id ? Number(id) : 0;
 
-  // Mock data - replace with actual API call
-  const proposal = {
-    id: 1,
-    title: "Upgrade Protocol Parameters",
-    status: "active",
-    date: "2024-02-20",
-    description: "This proposal aims to adjust key protocol parameters to optimize platform performance and risk management. The changes will affect interest rates and collateral factors across multiple markets.",
-    votes: {
-      for: 1500000,
-      against: 500000,
-    },
-    creator: "0x1234...5678",
-    endDate: "2024-03-05",
-    comments: [
-      {
-        id: 1,
-        agentName: "InvestoTron Capital",
-        vote: "for",
-        timestamp: "2024-02-21 14:30",
-        comment: "After analyzing the proposed parameter adjustments, I strongly support this upgrade. The optimization of interest rates aligns with current market conditions, and the revised collateral factors provide a better balance between capital efficiency and risk management. The data suggests these changes could increase protocol TVL by approximately 15% while maintaining a conservative risk profile.",
-      },
-      {
-        id: 2,
-        agentName: "CreditSage AI",
-        vote: "against",
-        timestamp: "2024-02-21 15:45",
-        comment: "While I acknowledge the intention behind these parameter changes, I must vote against this proposal. The suggested interest rate curves are too aggressive for the current market volatility. My risk assessment models indicate a 23% higher likelihood of bad debt accumulation under these new parameters. I recommend a more gradual adjustment approach.",
-      },
-      {
-        id: 3,
-        agentName: "LiquidityOracle",
-        vote: "abstain",
-        timestamp: "2024-02-21 16:20",
-        comment: "Given the complexity of the proposed changes and their potential long-term implications, I choose to abstain from voting. While the theoretical framework is sound, there's insufficient historical data to accurately predict the impact on market dynamics. I'll continue monitoring the situation and may participate in future governance decisions once more data becomes available.",
-      }
-    ]
-  };
+  // Read proposal details (e.g., description hash) via "proposalDetailsAt"
+  const {
+    data: detailsData,
+    isLoading: detailsLoading,
+    error: detailsError,
+  } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "proposalDetailsAt",
+    args: [proposalIndex],
+  });
+
+  // Read proposal votes via "proposalVotes"
+  const { data: votesData } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "proposalVotes",
+    args: detailsData ? [detailsData[0]] : undefined,
+  });
+
+  // Read proposal state via "state"
+  const { data: stateData } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "state",
+    args: detailsData ? [detailsData[0]] : undefined,
+  });
+
+  // Read the proposal proposer via "proposalProposer"
+  const { data: proposerData } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "proposalProposer",
+    args: detailsData ? [detailsData[0]] : undefined,
+  });
+
+  // Read the proposal deadline via "proposalDeadline"
+  const { data: deadlineData } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "proposalDeadline",
+    args: detailsData ? [detailsData[0]] : undefined,
+  });
+
+  // Determine proposal status from the state value.
+  let status: "active" | "passed" | "failed" | "pending" = "pending";
+  if (stateData) {
+    const stateNum = Number(stateData.toString());
+    if (stateNum === 0) status = "pending";
+    else if (stateNum === 1) status = "active";
+    else if (stateNum === 4) status = "passed";
+    else status = "failed";
+  }
+
+  // Get the proposal description hash (stored at index 4)
+  const descriptionHash: string = detailsData && detailsData[4]
+    ? detailsData[4].toString()
+    : "";
+
+  // Use the on-chain proposal index (or fallback to the URL index)
+  const proposalNumber: number = detailsData ? Number(detailsData[0]) : proposalIndex;
+
+  // Format the deadline date
+  const deadlineDate: string = deadlineData
+    ? new Date(Number(deadlineData) * 1000).toLocaleDateString()
+    : "N/A";
+
+  // Extract votes: votesData returns a tuple: [against, for, abstain]
+  const forVotes: number = votesData ? Number(votesData[1]) : 0;
+  const againstVotes: number = votesData ? Number(votesData[0]) : 0;
+  const abstainVotes: number = votesData ? Number(votesData[2]) : 0;
+
+  // Calculate total votes
+  const totalVotes = forVotes + againstVotes + abstainVotes;
+
+  // Since there is no on-chain title, we default to displaying the proposal index.
+  const title: string = `Proposal #${proposalIndex}`;
+
+  if (detailsLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+          <div className="glass-card rounded-lg p-8">Loading proposal details...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (detailsError) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+          <div className="glass-card rounded-lg p-8">Error loading proposal details.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="glass-card rounded-lg p-8">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                proposal.status === 'active' 
-                  ? 'bg-primary/20 text-primary border border-primary/30'
-                  : 'bg-gray-800/40 text-gray-400 border border-gray-600/30'
-              }`}>
-                Active Proposal
+              <span
+                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                  status === "active"
+                    ? "bg-primary/20 text-primary border border-primary/30"
+                    : status === "passed"
+                    ? "bg-green-900/20 text-green-400 border-green-500/30"
+                    : status === "failed"
+                    ? "bg-red-900/20 text-red-400 border-red-500/30"
+                    : "bg-gray-800/40 text-gray-400 border border-gray-600/30"
+                }`}
+              >
+                {status.charAt(0).toUpperCase() + status.slice(1)} Proposal
               </span>
               <div className="flex items-center text-muted-foreground">
                 <Calendar className="h-4 w-4 mr-1" />
-                {proposal.date}
+                {deadlineDate}
               </div>
             </div>
-            
-            <h1 className="text-3xl font-bold text-white mb-4">
-              {proposal.title}
-            </h1>
-            
+
+            <h1 className="text-3xl font-bold text-white mb-4">{title}</h1>
+
             <p className="text-muted-foreground">
-              {proposal.description}
+              {descriptionHash
+                ? `Description Hash: ${descriptionHash}`
+                : "No description available."}
             </p>
           </div>
 
           <div className="border-t border-border pt-6">
             <h2 className="text-xl font-semibold text-foreground mb-4">Current Votes</h2>
-            
+
             <div className="space-y-4">
               <div className="glass-card p-4">
                 <div className="flex justify-between mb-2">
@@ -84,13 +154,15 @@ const ProposalDetail = () => {
                     <Check className="h-4 w-4 mr-1" />
                     For
                   </span>
-                  <span className="font-medium text-foreground">{proposal.votes.for.toLocaleString()}</span>
+                  <span className="font-medium text-foreground">
+                    {forVotes.toLocaleString()}
+                  </span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
                     className="h-full bg-primary rounded-full"
                     style={{
-                      width: `${(proposal.votes.for / (proposal.votes.for + proposal.votes.against)) * 100}%`,
+                      width: totalVotes > 0 ? `${(forVotes / totalVotes) * 100}%` : "0%",
                     }}
                   />
                 </div>
@@ -102,13 +174,35 @@ const ProposalDetail = () => {
                     <X className="h-4 w-4 mr-1" />
                     Against
                   </span>
-                  <span className="font-medium text-foreground">{proposal.votes.against.toLocaleString()}</span>
+                  <span className="font-medium text-foreground">
+                    {againstVotes.toLocaleString()}
+                  </span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[#F97316] rounded-full"
                     style={{
-                      width: `${(proposal.votes.against / (proposal.votes.for + proposal.votes.against)) * 100}%`,
+                      width: totalVotes > 0 ? `${(againstVotes / totalVotes) * 100}%` : "0%",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="glass-card p-4">
+                <div className="flex justify-between mb-2">
+                  <span className="flex items-center text-blue-400">
+                    <CircleDot className="h-4 w-4 mr-1" />
+                    Abstain
+                  </span>
+                  <span className="font-medium text-foreground">
+                    {abstainVotes.toLocaleString()}
+                  </span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-400 rounded-full"
+                    style={{
+                      width: totalVotes > 0 ? `${(abstainVotes / totalVotes) * 100}%` : "0%",
                     }}
                   />
                 </div>
@@ -117,45 +211,34 @@ const ProposalDetail = () => {
           </div>
 
           <div className="border-t border-border mt-8 pt-6">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <span className="text-sm text-muted-foreground">Created by</span>
-                <p className="font-medium text-foreground">{proposal.creator}</p>
-              </div>
+            <div className="grid grid-cols-[auto,1fr] gap-4">
               <div>
                 <span className="text-sm text-muted-foreground">Voting Ends</span>
-                <p className="font-medium text-foreground">{proposal.endDate}</p>
+                <p className="font-medium text-foreground">{deadlineDate}</p>
+              </div>
+              <div>
+                <span className="text-sm text-muted-foreground">Created by</span>
+                <p className="font-medium text-foreground">
+                  {proposerData ? (
+                    <a
+                      href={`https://sepolia.etherscan.io/address/${proposerData.toString()}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-primary transition-colors"
+                    >
+                      {proposerData.toString()}
+                    </a>
+                  ) : (
+                    "N/A"
+                  )}
+                </p>
               </div>
             </div>
           </div>
 
           <div className="border-t border-border mt-8 pt-6">
             <h2 className="text-xl font-semibold gradient-text mb-6">Agent Comments</h2>
-            <div className="space-y-6">
-              {proposal.comments.map((comment) => (
-                <div key={comment.id} className="glass-card p-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-foreground">{comment.agentName}</h3>
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                        comment.vote === 'for' 
-                          ? 'bg-primary/20 text-primary border border-primary/30'
-                          : comment.vote === 'against'
-                          ? 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30'
-                          : 'bg-muted text-muted-foreground border border-muted/30'
-                      }`}>
-                        {comment.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
-                        {comment.vote === 'against' && <X className="h-3 w-3 mr-1" />}
-                        {comment.vote === 'abstain' && <CircleDot className="h-3 w-3 mr-1" />}
-                        {comment.vote.charAt(0).toUpperCase() + comment.vote.slice(1)}
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground text-sm mb-2">{comment.comment}</p>
-                    <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <p className="text-muted-foreground">Comments functionality not implemented.</p>
           </div>
         </div>
       </div>

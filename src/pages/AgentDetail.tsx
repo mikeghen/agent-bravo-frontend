@@ -2,43 +2,35 @@ import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
 import { ArrowLeft, ExternalLink, Check, X, CircleDot } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useReadContract } from "wagmi";
+import AgentBravoDelegateABI from "../config/abis/AgentBravoDelegate.json";
 
 export default function AgentDetail() {
   const { id } = useParams();
-
-  // Mock data - in a real app this would come from your backend
-  const agent = {
-    id: "1",
-    name: "InvestoTron Capital",
-    backstory: "I am a seasoned delegate with experience reviewing governance proposals",
-    voteNoConditions: "The proposal does not clearly demonstrate a return on investment (ROI) of at least 10% annually.",
-    voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
-    voteAbstainConditions: "The proposal's return on investment (ROI) cannot be accurately determined from the provided information.",
-    contractAddress: "0x1234567890123456789012345678901234567890",
-    votingHistory: [
-      {
-        id: 1,
-        proposalTitle: "Upgrade Protocol Parameters",
-        vote: "for",
-        timestamp: "2024-02-21 14:30",
-        comment: "The proposed parameter adjustments show a clear ROI potential of 15% through increased TVL while maintaining conservative risk levels. This aligns perfectly with our voting criteria for risk-adjusted returns.",
-      },
-      {
-        id: 2,
-        proposalTitle: "Implement New Liquidation Module",
-        vote: "against",
-        timestamp: "2024-02-15 09:45",
-        comment: "While the liquidation module upgrade is well-intentioned, our analysis indicates the projected ROI falls short of our 10% threshold. Implementation costs and reduced capital efficiency would result in approximately 7% annual returns.",
-      },
-      {
-        id: 3,
-        proposalTitle: "Launch Governance Token Staking",
-        vote: "abstain",
-        timestamp: "2024-02-10 16:20",
-        comment: "The staking mechanism's ROI potential cannot be accurately quantified due to variable market conditions and incomplete tokenomics data. We require additional information to make an informed decision.",
-      },
-    ],
-  };
+  
+  // Local state for voting policy details.
+  const [backstory, setBackstory] = useState<string>("");
+  const [voteNoConditions, setVoteNoConditions] = useState<string>("");
+  const [voteYesConditions, setVoteYesConditions] = useState<string>("");
+  const [voteAbstainConditions, setVoteAbstainConditions] = useState<string>("");
+  
+  // Read the voting policy from the AgentBravoDelegate contract.
+  const { data: votingPolicy, isLoading: policyLoading } = useReadContract({
+    address: (id as `0x${string}`) || "0x0000000000000000000000000000000000000000",
+    abi: AgentBravoDelegateABI,
+    functionName: "votingPolicy"
+  });
+  
+  useEffect(() => {
+    if (votingPolicy) {
+      // Assuming votingPolicy returns an array of [backstory, voteNo, voteYes, voteAbstain]
+      setBackstory(votingPolicy[0]);
+      setVoteNoConditions(votingPolicy[1]);
+      setVoteYesConditions(votingPolicy[2]);
+      setVoteAbstainConditions(votingPolicy[3]);
+    }
+  }, [votingPolicy]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,10 +49,12 @@ export default function AgentDetail() {
         <div className="glass-card p-8 rounded-lg">
           <div className="flex justify-between items-start mb-8">
             <div className="flex items-center gap-4">
-              <h1 className="text-4xl font-bold text-white">{agent.name}</h1>
+              <h1 className="text-4xl font-bold text-white">
+                {id ? `Agent ${id.slice(0, 6)}...${id.slice(-4)}` : "Agent Details"}
+              </h1>
             </div>
             <a 
-              href={`https://sepolia.etherscan.io/address/${agent.contractAddress}`}
+              href={`https://sepolia.etherscan.io/address/${id}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80"
@@ -73,55 +67,76 @@ export default function AgentDetail() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-6">Voting Policy</h2>
-                <p className="text-muted-foreground mb-6 whitespace-pre-wrap">{agent.backstory}</p>
-                
-                <div className="space-y-6">
-                  <div className="bg-[#F97316]/20 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-[#F97316] mb-2">Vote NO Conditions</h3>
-                    <p className="text-[#F97316]/90 whitespace-pre-wrap">{agent.voteNoConditions}</p>
-                  </div>
+                {policyLoading ? (
+                  <div>Loading policy...</div>
+                ) : (
+                  <>
+                    <p className="text-muted-foreground mb-6 whitespace-pre-wrap">{backstory}</p>
+                    <div className="space-y-6">
+                      <div className="bg-[#F97316]/20 p-6 rounded-lg">
+                        <h3 className="text-lg font-semibold text-[#F97316] mb-2">Vote NO Conditions</h3>
+                        <p className="text-[#F97316]/90 whitespace-pre-wrap">{voteNoConditions}</p>
+                      </div>
 
-                  <div className="bg-primary/20 p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-primary mb-2">Vote YES Conditions</h3>
-                    <p className="text-primary/90 whitespace-pre-wrap">{agent.voteYesConditions}</p>
-                  </div>
+                      <div className="bg-primary/20 p-6 rounded-lg">
+                        <h3 className="text-lg font-semibold text-primary mb-2">Vote YES Conditions</h3>
+                        <p className="text-primary/90 whitespace-pre-wrap">{voteYesConditions}</p>
+                      </div>
 
-                  <div className="bg-muted p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Vote ABSTAIN Conditions</h3>
-                    <p className="text-muted-foreground whitespace-pre-wrap">{agent.voteAbstainConditions}</p>
-                  </div>
-                </div>
+                      <div className="bg-blue-300/20 p-6 rounded-lg">
+                        <h3 className="text-lg font-semibold text-blue-400 mb-2">Vote ABSTAIN Conditions</h3>
+                        <p className="text-blue-400 whitespace-pre-wrap">{voteAbstainConditions}</p>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-foreground mb-6">Voting History</h2>
-              <div className="space-y-4">
-                {agent.votingHistory.map((vote) => (
-                  <div key={vote.id} className="glass-card rounded-lg p-4">
-                    <div className="flex items-start">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-medium text-foreground">{vote.proposalTitle}</h3>
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                            vote.vote === 'for' 
-                              ? 'bg-primary/20 text-primary'
-                              : vote.vote === 'against'
-                              ? 'bg-[#F97316]/20 text-[#F97316]'
-                              : 'bg-muted text-muted-foreground'
-                          }`}>
-                            {vote.vote === 'for' && <Check className="h-3 w-3 mr-1" />}
-                            {vote.vote === 'against' && <X className="h-3 w-3 mr-1" />}
-                            {vote.vote === 'abstain' && <CircleDot className="h-3 w-3 mr-1" />}
-                            {vote.vote.charAt(0).toUpperCase() + vote.vote.slice(1)}
-                          </span>
-                        </div>
-                        <p className="text-muted-foreground text-sm mb-2">{vote.comment}</p>
-                        <span className="text-xs text-muted-foreground">{vote.timestamp}</span>
-                      </div>
-                    </div>
+              <h2 className="text-xl font-semibold text-foreground mb-6">Agent Comments</h2>
+              <div className="space-y-6">
+                <div className="glass-card p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-semibold text-foreground">InvestoTron Capital</h3>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary border border-primary/30">
+                      <Check className="h-3 w-3 mr-1" />
+                      For
+                    </span>
                   </div>
-                ))}
+                  <p className="text-muted-foreground text-sm mb-2">
+                    "The proposed parameter adjustments show a clear ROI potential through optimization of interest rates."
+                  </p>
+                  <span className="text-xs text-muted-foreground">2024-02-21 14:30</span>
+                </div>
+
+                <div className="glass-card p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-semibold text-foreground">CreditSage AI</h3>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30">
+                      <X className="h-3 w-3 mr-1" />
+                      Against
+                    </span>
+                  </div>
+                  <p className="text-muted-foreground text-sm mb-2">
+                    "While the proposal has merit, the suggested parameters appear too aggressive in the current volatile market."
+                  </p>
+                  <span className="text-xs text-muted-foreground">2024-02-21 15:45</span>
+                </div>
+
+                <div className="glass-card p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-semibold text-foreground">LiquidityOracle</h3>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-300/20 text-blue-400 border border-blue-300/30">
+                      <CircleDot className="h-3 w-3 mr-1" />
+                      Abstain
+                    </span>
+                  </div>
+                  <p className="text-muted-foreground text-sm mb-2">
+                    "Due to insufficient data, I have chosen to abstain from voting on this proposal."
+                  </p>
+                  <span className="text-xs text-muted-foreground">2024-02-21 16:20</span>
+                </div>
               </div>
             </div>
           </div>

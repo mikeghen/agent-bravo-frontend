@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,6 +18,10 @@ import { toast } from "sonner";
 import Navbar from "../components/Navbar";
 import { ArrowLeft, Brain } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
+import { sepolia } from "wagmi/chains";
+import { CONTRACTS } from "../config/contracts";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -30,33 +33,85 @@ const formSchema = z.object({
 
 export default function EditAgent() {
   const { id } = useParams();
+  const agentContractAddress = id as string;
 
-  // Mock data - in a real app this would be fetched from your backend
-  const agent = {
-    id: "1",
-    name: "InvestoTron Capital",
-    backstory: "I am a seasoned delegate with experience reviewing governance proposals",
-    voteNoConditions: "The proposal does not clearly demonstrate a return on investment (ROI) of at least 10% annually.",
-    voteYesConditions: "The proposal clearly demonstrates a return on investment (ROI) of 10% or more annually.",
-    voteAbstainConditions: "The proposal's return on investment (ROI) cannot be accurately determined from the provided information.",
-    contractAddress: "0x1234567890123456789012345678901234567890",
-  };
+  // Read the voting policy from the agent contract.
+  const { data: votingPolicy, isLoading: policyLoading, error: policyError } = useReadContract({
+    address: agentContractAddress as `0x${string}`,
+    abi: CONTRACTS.AgentBravoDelegate.abi,
+    functionName: "votingPolicy",
+  });
 
+  // Initialize form with empty values; we will update these via reset() once the contract data is loaded.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: agent.name,
-      backstory: agent.backstory,
-      voteNoConditions: agent.voteNoConditions,
-      voteYesConditions: agent.voteYesConditions,
-      voteAbstainConditions: agent.voteAbstainConditions,
+      // Name is not stored on-chain; we display a shortened version of the contract address.
+      name: agentContractAddress
+        ? `Agent ${agentContractAddress.substring(0, 6)}...${agentContractAddress.substring(agentContractAddress.length - 4)}`
+        : "",
+      backstory: "",
+      voteNoConditions: "",
+      voteYesConditions: "",
+      voteAbstainConditions: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast.success("Agent updated successfully!");
+  const { writeContract: updatePolicyWrite, data: updateTxHash, isPending: isUpdatePending, error: updateWriteError } = useWriteContract();
+  const { isLoading: isUpdateConfirming, isSuccess: isUpdateConfirmed } = useWaitForTransactionReceipt({
+    hash: updateTxHash,
+  });
+
+  // Declare useAccount at the top level of the component
+  const { address } = useAccount();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!address) {
+      toast.error("Please connect your wallet");
+      return;
+    }
+    try {
+      await updatePolicyWrite({
+        address: agentContractAddress as `0x${string}`,
+        abi: CONTRACTS.AgentBravoDelegate.abi,
+        functionName: "updateVotingPolicy",
+        args: [
+          values.backstory,
+          values.voteNoConditions,
+          values.voteYesConditions,
+          values.voteAbstainConditions,
+        ],
+        chain: sepolia,
+        account: address,
+      });
+      toast("Voting policy update transaction sent. Waiting for confirmation...");
+      toast.success("Agent updated successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Update failed. Please try again.");
+    }
   }
+
+  // Trigger a success toast once the update transaction is confirmed.
+  useEffect(() => {
+    if (isUpdateConfirmed) {
+      toast.success("Agent updated successfully!");
+    }
+  }, [isUpdateConfirmed]);
+
+  useEffect(() => {
+    if (votingPolicy) {
+      form.reset({
+        name: agentContractAddress
+          ? `Agent ${agentContractAddress.substring(0, 6)}...${agentContractAddress.substring(agentContractAddress.length - 4)}`
+          : "",
+        backstory: votingPolicy[0] ?? "",
+        voteNoConditions: votingPolicy[1] ?? "",
+        voteYesConditions: votingPolicy[2] ?? "",
+        voteAbstainConditions: votingPolicy[3] ?? "",
+      });
+    }
+  }, [votingPolicy, agentContractAddress, form]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,7 +132,11 @@ export default function EditAgent() {
                   <Brain className="h-6 w-6 text-primary" />
                 </AvatarFallback>
               </Avatar>
-              <h1 className="text-4xl font-bold text-white">Edit {agent.name}</h1>
+              <h1 className="text-4xl font-bold text-white">
+                Edit Agent {agentContractAddress
+                  ? `${agentContractAddress.substring(0, 6)}...${agentContractAddress.substring(agentContractAddress.length - 4)}`
+                  : ""}
+              </h1>
             </div>
           </div>
 
@@ -169,7 +228,7 @@ export default function EditAgent() {
                       <FormLabel className="text-foreground">Vote ABSTAIN Conditions</FormLabel>
                       <FormControl>
                         <Textarea
-                          className="min-h-[100px] bg-muted border-muted"
+                          className="min-h-[100px] bg-blue-300/20 text-blue-400 border border-blue-300/30"
                           {...field}
                         />
                       </FormControl>
@@ -182,8 +241,8 @@ export default function EditAgent() {
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/80 text-primary-foreground">
-                Update Agent
+              <Button type="submit" className="w-full bg-primary hover:bg-primary/80 text-primary-foreground" disabled={isUpdatePending || isUpdateConfirming}>
+                {isUpdatePending || isUpdateConfirming ? "Updating..." : "Update Agent"}
               </Button>
             </form>
           </Form>

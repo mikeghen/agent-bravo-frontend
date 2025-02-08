@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,6 +17,9 @@ import { toast } from "sonner";
 import Navbar from "../components/Navbar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Brain } from "lucide-react";
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { CONTRACTS } from "../config/contracts";
+import { sepolia } from "wagmi/chains";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -39,14 +41,67 @@ export default function CreateAgent() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Mock contract address generation - in a real app this would come from the blockchain
-    const contractAddress = "0x" + Math.random().toString(16).slice(2).padEnd(40, '0');
-    toast.success("Agent created successfully!", {
-      description: `Contract Address: ${contractAddress}`,
-      duration: 5000,
-    });
+  // Retrieve the connected account.
+  const { address } = useAccount();
+
+  // Prepare the deploy write hook for creating the agent via the factory.
+  const { writeContract: deployAgentWrite, data: deployTxHash, isPending: isDeployPending, error: deployWriteError } = useWriteContract();
+  const { isLoading: isDeployConfirming, isSuccess: isDeployConfirmed } = useWaitForTransactionReceipt({
+    hash: deployTxHash,
+  });
+
+  // Prepare the update write hook for updating the delegate's voting policy.
+  const { writeContract: updatePolicyWrite, data: updateTxHash, isPending: isUpdatePending, error: updateWriteError } = useWriteContract();
+  const { isLoading: isUpdateConfirming, isSuccess: isUpdateConfirmed } = useWaitForTransactionReceipt({
+    hash: updateTxHash,
+  });
+
+  async function handleCreateAgent(values: z.infer<typeof formSchema>) {
+    if (!address) {
+      toast.error("Please connect your wallet");
+      return;
+    }
+
+    try {
+      // First transaction: create the new agent via the factory contract.
+      await deployAgentWrite({
+        address: CONTRACTS.AgentBravoDelegateFactory.address,
+        abi: CONTRACTS.AgentBravoDelegateFactory.abi,
+        functionName: "deployAgentBravoDelegate",
+        args: [address, address],
+        chain: sepolia,
+        account: address,
+      });
+      toast("Agent creation transaction sent. Waiting for confirmation...");
+
+      // Assuming deployAgentWrite returns a result with the new agent's address.
+      const newAgentAddress = deployTxHash?.result;
+      if (!newAgentAddress) {
+        throw new Error("Agent creation failed!");
+      }
+      toast("Agent created. Proceeding to update voting policy...");
+
+      // Second transaction: update the agent delegate's voting policy.
+      await updatePolicyWrite({
+        address: newAgentAddress as `0x${string}`,
+        abi: CONTRACTS.AgentBravoDelegate.abi,
+        functionName: "updateVotingPolicy",
+        args: [
+          values.backstory, 
+          values.voteNoConditions,
+          values.voteYesConditions,
+          values.voteAbstainConditions,
+        ],
+        chain: sepolia,
+        account: address,
+      });
+      toast("Voting policy update transaction sent. Waiting for confirmation...");
+
+      toast.success("Agent created with updated voting policy!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Transaction failed. Please try again.");
+    }
   }
 
   return (
@@ -66,7 +121,7 @@ export default function CreateAgent() {
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(handleCreateAgent)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="name"

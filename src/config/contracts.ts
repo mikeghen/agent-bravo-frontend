@@ -1,8 +1,8 @@
 import { Address } from 'viem'
-import AgentBravoGovernorABI from './abis/AgentBravoGovernor.json'
 import AgentBravoDelegateFactoryABI from './abis/AgentBravoDelegateFactory.json'
+import AgentBravoDelegateABI from './abis/AgentBravoDelegate.json'
 import AgentBravoTokenABI from './abis/AgentBravoToken.json'
-
+import AgentBravoGovernorABI from './abis/AgentBravoGovernor.json'
 export const CHAIN_ID = 11155111 // Sepolia
 
 export const CONTRACTS = {
@@ -18,9 +18,13 @@ export const CONTRACTS = {
     address: '0x7c41063Bda9D7B2C67e655179205f074f27E11c1' as Address,
     abi: AgentBravoDelegateFactoryABI,
   },
+  AgentBravoDelegate: {
+    address: '0x0000000000000000000000000000000000000000' as Address,
+    abi: AgentBravoDelegateABI,
+  },
 } as const
 
 // Type helpers
 export type ContractName = keyof typeof CONTRACTS
 export type ContractABI<T extends ContractName> = typeof CONTRACTS[T]['abi']
-export type ContractAddress<T extends ContractName> = typeof CONTRACTS[T]['address'] 
+export type ContractAddress<T extends ContractName> = typeof CONTRACTS[T]['address'] | `0x${string}`

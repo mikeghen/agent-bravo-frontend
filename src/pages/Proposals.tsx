@@ -1,34 +1,11 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useReadContract } from "wagmi";
 import Navbar from "../components/Navbar";
 import ProposalCard from "../components/ProposalCard";
 import { Calendar, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
-// Mock data - replace with actual API calls
-const mockProposals = [
-  {
-    id: 1,
-    title: "Upgrade Protocol Parameters",
-    status: "active",
-    date: "2024-02-20",
-    description: "Proposal to adjust key protocol parameters including interest rates and collateral factors.",
-  },
-  {
-    id: 2,
-    title: "Community Fund Allocation",
-    status: "passed",
-    date: "2024-02-15",
-    description: "Allocate funds from the community treasury for ecosystem development and growth initiatives.",
-  },
-  {
-    id: 3,
-    title: "Governance Framework Update",
-    status: "pending",
-    date: "2024-02-25",
-    description: "Updates to the governance framework to improve decision-making processes and participation.",
-  },
-] as const;
+import { CONTRACTS } from "../config/contracts";
+import { toast } from "sonner";
 
 const statusColors = {
   active: "bg-primary/20 text-primary border-primary/30",
@@ -39,9 +16,37 @@ const statusColors = {
 
 const Proposals = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [proposalCount, setProposalCount] = useState<number>(0);
+  const [proposals, setProposals] = useState<{ id: number }[]>([]);
 
-  const filteredProposals = mockProposals.filter((proposal) =>
-    proposal.title.toLowerCase().includes(searchTerm.toLowerCase())
+  // Read the proposal count from the AgentBravoGovernor contract
+  const { data: countData, isLoading: countLoading, error: countError } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "proposalCount",
+    args: [],
+  });
+
+  useEffect(() => {
+    if (countData) { 
+      console.log("Proposal count:", countData);
+      setProposalCount(Number(countData.toString()));
+    }
+  }, [countData]);
+
+  // Once we know the proposal count, generate an array of proposal IDs.
+  useEffect(() => {
+    if (proposalCount > 0) {
+      const proposalsArr = Array.from({ length: proposalCount }, (_, i) => ({ id: i }));
+      setProposals(proposalsArr);
+    } else {
+      setProposals([]);
+    }
+  }, [proposalCount]);
+
+  // Filter proposals by ID (as a string) because the on-chain title will be read within ProposalCard.
+  const filteredProposals = proposals.filter((proposal) =>
+    proposal.id.toString().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -59,77 +64,18 @@ const Proposals = () => {
         <div className="mb-8">
           <input
             type="text"
-            placeholder="Search proposals..."
+            placeholder="Search proposals by ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full max-w-md mx-auto block px-4 py-2 rounded-lg glass-card focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent text-foreground placeholder:text-muted-foreground"
           />
         </div>
 
-        {/* Mobile View (Cards) */}
-        <div className="grid gap-6 md:grid-cols-2 lg:hidden">
+        {/* Render Proposal Cards in a list (same as AgentCards in MyAgents.tsx) */}
+        <div className="grid gap-6">
           {filteredProposals.map((proposal) => (
-            <ProposalCard key={proposal.id} {...proposal} />
+            <ProposalCard key={proposal.id} id={proposal.id} />
           ))}
-        </div>
-
-        {/* Desktop View (List) */}
-        <div className="hidden lg:block">
-          <div className="glass-card rounded-lg overflow-hidden">
-            <table className="min-w-full divide-y divide-border">
-              <thead>
-                <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Title
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Description
-                  </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">View</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {filteredProposals.map((proposal) => (
-                  <tr key={proposal.id} className="hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-foreground">{proposal.title}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusColors[proposal.status]}`}>
-                        {proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        {proposal.date}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-muted-foreground line-clamp-2">{proposal.description}</div>
-                    </td>
-                    <td className="px-6 py-4 text-right text-sm font-medium">
-                      <Link 
-                        to={`/proposals/${proposal.id}`} 
-                        className="text-primary hover:text-primary/80 transition-colors flex items-center justify-end"
-                      >
-                        View Details
-                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>

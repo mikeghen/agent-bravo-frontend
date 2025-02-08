@@ -1,99 +1,88 @@
-
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-
-// Mock data - in a real app this would come from your backend
-const agents = [
-  {
-    id: "1",
-    name: "InvestoTron Capital",
-    backstory: "You're a seasoned delegate with experience reviewing governance proposals",
-    stats: {
-      totalOpinions: 45,
-      votesYes: 28,
-      votesNo: 12,
-      votesAbstain: 5
-    }
-  },
-  {
-    id: "2",
-    name: "CreditSage AI", 
-    backstory: "Professional risk analyst specializing in DeFi protocol evaluation...",
-    stats: {
-      totalOpinions: 38,
-      votesYes: 20,
-      votesNo: 15,
-      votesAbstain: 3
-    }
-  },
-  {
-    id: "3",
-    name: "LiquidityOracle",
-    backstory: "Blockchain security expert focused on smart contract vulnerabilities...",
-    stats: {
-      totalOpinions: 52,
-      votesYes: 31,
-      votesNo: 16,
-      votesAbstain: 5
-    }
-  }
-];
+import { useReadContract, useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useState, useEffect } from "react";
+import { CONTRACTS } from "../config/contracts";
+import AgentCard from "../components/AgentCard";
+import { sepolia } from "wagmi/chains";
+import { toast } from "sonner";
 
 export default function MyAgents() {
+  const [agentCount, setAgentCount] = useState(0);
+  const { address } = useAccount();
+
+  const { data: agentCountData, isLoading: countLoading, isError: countError } = useReadContract({
+    address: CONTRACTS.AgentBravoDelegateFactory.address,
+    abi: CONTRACTS.AgentBravoDelegateFactory.abi,
+    functionName: "getDeployedAgentsCount",
+    args: [],
+  });
+
+  const { writeContract: deployAgentWrite, data: deployTxHash, isPending: isDeployPending, error: deployWriteError } = useWriteContract();
+
+  const { isLoading: isDeployConfirming, isSuccess: isDeployConfirmed } = useWaitForTransactionReceipt({
+    hash: deployTxHash,
+  });
+
+  const handleCreateAgent = async () => {
+    if (!address) {
+      toast.error("Please connect your wallet");
+      return;
+    }
+    try {
+      await deployAgentWrite({
+        address: CONTRACTS.AgentBravoDelegateFactory.address,
+        abi: CONTRACTS.AgentBravoDelegateFactory.abi,
+        functionName: "deployAgentBravoDelegate",
+        args: [CONTRACTS.AgentBravoGovernor.address, address],
+        chain: sepolia,
+        account: address,
+      });
+      toast("Agent creation transaction sent. Waiting for confirmation...");
+    } catch (err) {
+      console.error(err);
+      toast.error("Transaction failed. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    if (agentCountData) {
+      console.log("Deployed agents count:", agentCountData);
+      setAgentCount(Number(agentCountData.toString()));
+    } else {
+      setAgentCount(0);
+    }
+  }, [agentCountData]);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-white">My Agents</h1>
-          <Link to="/create-agent">
-            <Button className="gap-2 bg-primary hover:bg-primary/80 text-primary-foreground">
-              <Plus size={20} />
-              Create Agent
-            </Button>
-          </Link>
+          <Button onClick={handleCreateAgent} className="gap-2 bg-primary hover:bg-primary/80 text-primary-foreground">
+            <Plus size={20} />
+            Create Agent
+          </Button>
         </div>
 
-        <div className="grid gap-6">
-          {agents.map((agent) => (
-            <Link
-              key={agent.id}
-              to={`/agents/${agent.id}`}
-              className="glass-card p-6 rounded-lg hover:neon-border transition-all duration-300"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-4">
-                  <div>
-                    <h2 className="text-xl font-semibold text-foreground">{agent.name}</h2>
-                    <p className="text-muted-foreground mt-1 line-clamp-2">{agent.backstory}</p>
-                  </div>
-                </div>
-                <div className="flex gap-6">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">{agent.stats.totalOpinions}</p>
-                    <p className="text-sm text-muted-foreground">Total Opinions</p>
-                  </div>
-                  <div className="flex gap-4 items-start">
-                    <div className="text-center">
-                      <p className="text-lg font-semibold text-primary">{agent.stats.votesYes}</p>
-                      <p className="text-xs text-muted-foreground">Yes</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-lg font-semibold text-destructive">{agent.stats.votesNo}</p>
-                      <p className="text-xs text-muted-foreground">No</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-lg font-semibold text-muted-foreground">{agent.stats.votesAbstain}</p>
-                      <p className="text-xs text-muted-foreground">Abstain</p>
-                    </div>
-                  </div>
-                </div>
+        {countLoading ? (
+          <div>Loading agents...</div>
+        ) : (
+          <>
+            {agentCount === 0 ? (
+              <div>No agents found. Create one now!</div>
+            ) : (
+              <div className="grid gap-6">
+                {Array.from({ length: agentCount }).map((_, index) => (
+                  <AgentCard key={index} index={index} />
+                ))}
               </div>
-            </Link>
-          ))}
-        </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
