@@ -6,7 +6,7 @@ import { useReadContract, useAccount, useWriteContract, useWaitForTransactionRec
 import { useState, useEffect } from "react";
 import { CONTRACTS } from "../config/contracts";
 import AgentCard from "../components/AgentCard";
-import { sepolia } from "wagmi/chains";
+import { arbitrumSepolia } from "wagmi/chains";
 import { toast } from "sonner";
 
 export default function MyAgents() {
@@ -37,7 +37,7 @@ export default function MyAgents() {
         abi: CONTRACTS.AgentBravoDelegateFactory.abi,
         functionName: "deployAgentBravoDelegate",
         args: [CONTRACTS.AgentBravoGovernor.address, address],
-        chain: sepolia,
+        chain: arbitrumSepolia,
         account: address,
       });
       toast("Agent creation transaction sent. Waiting for confirmation...");

@@ -228,7 +228,7 @@ export default function EditAgent() {
                       <FormLabel className="text-foreground">Vote ABSTAIN Conditions</FormLabel>
                       <FormControl>
                         <Textarea
-                          className="min-h-[100px] bg-blue-300/20 text-blue-400 border border-blue-300/30"
+                          className="min-h-[100px] bg-blue-300/20 text-white border border-blue-300/30"
                           {...field}
                         />
                       </FormControl>
