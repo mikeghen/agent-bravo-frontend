@@ -59,12 +59,15 @@ const AgentCommentCard: React.FC<AgentCommentCardProps> = ({ opinion, agentAddre
     <div className="glass-card p-4">
       <div className="flex items-center justify-between mb-3">
         <div className="space-y-1">
-          {agentAddress && (
-            <span className="text-sm text-muted-foreground block">
-              Agent: {agentAddress.slice(0, 6)}...{agentAddress.slice(-4)}
-            </span>
+          {agentAddress ? (
+            <h3>
+              Agent: {agentAddress.slice(0, 6)}...
+            </h3>
+          ) : (
+            <h3>
+              Proposal #{opinion.proposalId.toString().slice(-4)}
+            </h3>
           )}
-          <h3 className="font-semibold text-foreground">#{opinion.proposalId}</h3>
         </div>
         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${bgClass} ${textClass} border ${borderClass}`}>
           {IconComponent && <IconComponent className="h-3 w-3 mr-1" />}

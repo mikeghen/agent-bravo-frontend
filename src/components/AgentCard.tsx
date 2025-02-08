@@ -60,7 +60,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ index }) => {
   return (
     <Link to={`/agents/${agentAddr}`}>
       <div className="glass-card p-6 rounded-lg hover:neon-border transition-all duration-300">
-        <h2 className="text-xl font-semibold text-foreground">Agent #{index + 1}</h2>
+        <h2 className="text-xl font-semibold text-foreground">Agent {agentAddr ? agentAddr.slice(0,10) : index + 1}</h2>
         <p className="text-muted-foreground mt-1 line-clamp-2">
           {backstory
             ? backstory

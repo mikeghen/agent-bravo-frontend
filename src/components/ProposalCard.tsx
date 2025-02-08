@@ -17,7 +17,7 @@ const statusColors = {
 
 const ProposalCard = ({ id }: ProposalCardProps) => {
   // Local state for on-chain proposal details.
-  const [proposalId, setProposalId] = useState<number | null>(null);
+  const [proposalId, setProposalId] = useState<string | null>(null);
   const [descriptionHash, setDescriptionHash] = useState<string>("");
   const [forVotes, setForVotes] = useState<number>(0);
   const [againstVotes, setAgainstVotes] = useState<number>(0);
@@ -72,7 +72,7 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
   useEffect(() => {
     if (detailsData) {
       console.log("proposalDetailsAt returned:", detailsData);
-      const pid = Number(detailsData[0]);
+      const pid = detailsData[0].toString();
       setProposalId(pid);
       setDescriptionHash(detailsData[4] ? detailsData[4].toString() : "");
     } else {
@@ -145,7 +145,7 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
       {/* Desktop / large screen layout: horizontal table row */}
       <div className="hidden md:flex items-center p-4 rounded-lg glass-card hover:border-primary/30 transition-all duration-300">
         {/* Proposal Index */}
-        <div className="w-16 text-white font-medium">#{id}</div>
+        <div className="w-16 text-white font-medium">#{proposalId.toString().slice(-4)}</div>
         {/* Date */}
         <div className="w-28 text-sm text-gray-400">{date}</div>
         {/* Status */}
@@ -204,7 +204,7 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
         </div>
 
         <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors">
-          Proposal #{id}
+          Proposal #{proposalId ? proposalId.slice(-4) : id}
         </h3>
 
         <p className="text-gray-400 mb-4 line-clamp-2">

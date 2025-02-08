@@ -15,7 +15,6 @@ const statusColors = {
 };
 
 const Proposals = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [proposalCount, setProposalCount] = useState<number>(0);
   const [proposals, setProposals] = useState<{ id: number }[]>([]);
 
@@ -44,10 +43,8 @@ const Proposals = () => {
     }
   }, [proposalCount]);
 
-  // Filter proposals by ID (as a string) because the on-chain title will be read within ProposalCard.
-  const filteredProposals = proposals.filter((proposal) =>
-    proposal.id.toString().includes(searchTerm.toLowerCase())
-  );
+  // Without search functionality, we directly use the proposals
+  const filteredProposals = proposals;
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,17 +58,7 @@ const Proposals = () => {
           </p>
         </div>
 
-        <div className="mb-8">
-          <input
-            type="text"
-            placeholder="Search proposals by ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full max-w-md mx-auto block px-4 py-2 rounded-lg glass-card focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent text-foreground placeholder:text-muted-foreground"
-          />
-        </div>
-
-        {/* Render Proposal Cards in a list (same as AgentCards in MyAgents.tsx) */}
+        {/* Render Proposal Cards */}
         <div className="grid gap-6">
           {filteredProposals.map((proposal) => (
             <ProposalCard key={proposal.id} id={proposal.id} />

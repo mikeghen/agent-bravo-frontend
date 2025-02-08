@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useReadContract } from "wagmi";
 import AgentBravoDelegateABI from "../config/abis/AgentBravoDelegate.json";
 import AgentComments from "../components/AgentComments";
+import { toast } from "sonner";
 
 export default function AgentDetail() {
   const { id } = useParams();
@@ -50,8 +51,27 @@ export default function AgentDetail() {
         <div className="glass-card p-8 rounded-lg">
           <div className="flex justify-between items-start mb-8">
             <div className="flex items-center gap-4">
-              <h1 className="text-4xl font-bold text-white">
-                {id ? `Agent ${id.slice(0, 6)}...${id.slice(-4)}` : "Agent Details"}
+              <h1 className="text-4xl font-bold text-white flex items-center gap-2">
+                {id ? (
+                  <>
+                    Agent {id.slice(0, 10)}
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(id);
+                        toast.success("Address copied to clipboard");
+                      }}
+                      className="p-1 hover:bg-white/10 rounded transition-colors"
+                      title="Copy full address"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                  </>
+                ) : (
+                  "Agent Details"
+                )}
               </h1>
             </div>
             <a 

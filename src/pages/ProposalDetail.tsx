@@ -86,7 +86,7 @@ const ProposalDetail = () => {
   const totalVotes = forVotes + againstVotes + abstainVotes;
 
   // Since there is no on-chain title, we default to displaying the proposal index.
-  const title: string = `Proposal #${proposalIndex}`;
+  const title: string = `Proposal #${proposalString.slice(-4)}`;
 
   // Use the description hash to call getProposalDescription and fetch the proposal description.
   const {
