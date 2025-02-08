@@ -32,32 +32,32 @@ const TokenDetailsSection = () => {
         <div className="space-y-4">
           <DetailCard
             title="50/50 Split"
-            description="Emissions are split equally between the community and developers"
+            description="10K/month BRAVO emissions are split equally between the community and developers"
           />
           <DetailCard
             title="Community Share"
-            description="5,000 BRAVO tokens donated monthly through Uniswap V4 BRAVO-ETH and BRAVO-USDC pools"
+            description="5K/month donated through hooks on Uniswap V4 BRAVO-ETH and BRAVO-USDC"
           />
           <DetailCard
             title="Developer Share"
-            description="Allocated to the development team for platform enhancement and growth"
+            description="5K/month allocated to the developers to support the Agent Bravo's development"
           />
         </div>
         
         <div className="space-y-4">
           <DetailCard
-            title="Discord Access"
-            description="Exclusive access to token-gated chat channels on Discord"
-            isUtility={true}
-          />
-          <DetailCard
-            title="Merchandise Store"
-            description="Purchase exclusive Agent Bravo merchandise using BRAVO tokens"
+            title="Community Access"
+            description="Exclusive access to token-gated communications channels on Discord"
             isUtility={true}
           />
           <DetailCard
             title="Build Reputation"
             description="Have a voice and a vote on the future of the Agent Bravo Framework"
+            isUtility={true}
+          />
+          <DetailCard
+            title="Merchandise Store"
+            description="Purchase exclusive Agent Bravo merchandise using BRAVO tokens"
             isUtility={true}
           />
         </div>

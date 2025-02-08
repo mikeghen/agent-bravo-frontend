@@ -14,7 +14,7 @@ const Hero = () => {
         <div className="text-center space-y-8 animate-fadeIn">
           <div className="inline-block">
             <span className="px-3 py-1 rounded-full text-sm font-medium bg-primary/20 text-primary border border-primary/30">
-              Now in Beta
+              Now on Testnet
             </span>
           </div>
           
