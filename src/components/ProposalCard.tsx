@@ -145,7 +145,9 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
       {/* Desktop / large screen layout: horizontal table row */}
       <div className="hidden md:flex items-center p-4 rounded-lg glass-card hover:border-primary/30 transition-all duration-300">
         {/* Proposal Index */}
-        <div className="w-16 text-white font-medium">#{proposalId.toString().slice(-4)}</div>
+        <div className="w-16 text-white font-medium">
+          {proposalId ? `#${proposalId.toString().slice(-4)}` : `#${id}`}
+        </div>
         {/* Date */}
         <div className="w-28 text-sm text-gray-400">{date}</div>
         {/* Status */}
