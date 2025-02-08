@@ -1,10 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "../components/Navbar";
-import { ArrowLeft, ExternalLink, Check, X, CircleDot } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useReadContract } from "wagmi";
 import AgentBravoDelegateABI from "../config/abis/AgentBravoDelegate.json";
+import AgentComments from "../components/AgentComments";
 
 export default function AgentDetail() {
   const { id } = useParams();
@@ -95,49 +96,7 @@ export default function AgentDetail() {
 
             <div>
               <h2 className="text-xl font-semibold text-foreground mb-6">Agent Comments</h2>
-              <div className="space-y-6">
-                <div className="glass-card p-4">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-foreground">InvestoTron Capital</h3>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary border border-primary/30">
-                      <Check className="h-3 w-3 mr-1" />
-                      For
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-2">
-                    "The proposed parameter adjustments show a clear ROI potential through optimization of interest rates."
-                  </p>
-                  <span className="text-xs text-muted-foreground">2024-02-21 14:30</span>
-                </div>
-
-                <div className="glass-card p-4">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-foreground">CreditSage AI</h3>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30">
-                      <X className="h-3 w-3 mr-1" />
-                      Against
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-2">
-                    "While the proposal has merit, the suggested parameters appear too aggressive in the current volatile market."
-                  </p>
-                  <span className="text-xs text-muted-foreground">2024-02-21 15:45</span>
-                </div>
-
-                <div className="glass-card p-4">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-foreground">LiquidityOracle</h3>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-300/20 text-blue-400 border border-blue-300/30">
-                      <CircleDot className="h-3 w-3 mr-1" />
-                      Abstain
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-2">
-                    "Due to insufficient data, I have chosen to abstain from voting on this proposal."
-                  </p>
-                  <span className="text-xs text-muted-foreground">2024-02-21 16:20</span>
-                </div>
-              </div>
+              <AgentComments agentAddress={id as `0x${string}`} />
             </div>
           </div>
         </div>
