@@ -3,6 +3,7 @@ import { useReadContract } from "wagmi";
 import Navbar from "../components/Navbar";
 import { Calendar, Check, X, CircleDot } from "lucide-react";
 import { CONTRACTS } from "../config/contracts";
+import ProposalAgentComments from "../components/ProposalAgentComments";
 
 const ProposalDetail = () => {
   // Get the proposal index from the URL params.
@@ -64,12 +65,12 @@ const ProposalDetail = () => {
   }
 
   // Get the proposal description hash (stored at index 4)
-  const descriptionHash: string = detailsData && detailsData[4]
-    ? detailsData[4].toString()
-    : "";
+  const descriptionHash: string =
+    detailsData && detailsData[4] ? detailsData[4].toString() : "";
 
   // Use the on-chain proposal index (or fallback to the URL index)
   const proposalNumber: number = detailsData ? Number(detailsData[0]) : proposalIndex;
+  const proposalString: string = detailsData ? detailsData[0].toString() : proposalIndex.toString();
 
   // Format the deadline date
   const deadlineDate: string = deadlineData
@@ -86,6 +87,19 @@ const ProposalDetail = () => {
 
   // Since there is no on-chain title, we default to displaying the proposal index.
   const title: string = `Proposal #${proposalIndex}`;
+
+  // Use the description hash to call getProposalDescription and fetch the proposal description.
+  const {
+    data: descriptionData,
+    isLoading: descriptionLoading,
+    error: descriptionError,
+  } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "getProposalDescription",
+    args: descriptionHash ? [descriptionHash] : undefined,
+    enabled: Boolean(descriptionHash),
+  });
 
   if (detailsLoading) {
     return (
@@ -138,8 +152,10 @@ const ProposalDetail = () => {
             <h1 className="text-3xl font-bold text-white mb-4">{title}</h1>
 
             <p className="text-muted-foreground">
-              {descriptionHash
-                ? `Description Hash: ${descriptionHash}`
+              {descriptionLoading
+                ? "Loading proposal description..."
+                : descriptionData && descriptionData.toString().length > 0
+                ? descriptionData.toString()
                 : "No description available."}
             </p>
           </div>
@@ -238,7 +254,7 @@ const ProposalDetail = () => {
 
           <div className="border-t border-border mt-8 pt-6">
             <h2 className="text-xl font-semibold gradient-text mb-6">Agent Comments</h2>
-            <p className="text-muted-foreground">Comments functionality not implemented.</p>
+            <ProposalAgentComments proposalId={proposalString} />
           </div>
         </div>
       </div>

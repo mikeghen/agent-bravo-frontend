@@ -11,14 +11,17 @@ interface Opinion {
 
 interface AgentCommentCardProps {
   opinion: Opinion;
+  agentAddress?: string;
 }
 
-const AgentCommentCard: React.FC<AgentCommentCardProps> = ({ opinion }) => {
+const AgentCommentCard: React.FC<AgentCommentCardProps> = ({ opinion, agentAddress }) => {
   let label = "";
   let bgClass = "";
   let textClass = "";
   let borderClass = "";
   let IconComponent: React.ElementType | null = null;
+
+  console.log("opinion", opinion);
 
   switch (opinion.support) {
     case 1:
@@ -54,8 +57,15 @@ const AgentCommentCard: React.FC<AgentCommentCardProps> = ({ opinion }) => {
 
   return (
     <div className="glass-card p-4">
-      <div className="flex items-center gap-2 mb-1">
-        <h3 className="font-semibold text-foreground">Proposal {opinion.proposalId}</h3>
+      <div className="flex items-center justify-between mb-3">
+        <div className="space-y-1">
+          {agentAddress && (
+            <span className="text-sm text-muted-foreground block">
+              Agent: {agentAddress.slice(0, 6)}...{agentAddress.slice(-4)}
+            </span>
+          )}
+          <h3 className="font-semibold text-foreground">#{opinion.proposalId}</h3>
+        </div>
         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${bgClass} ${textClass} border ${borderClass}`}>
           {IconComponent && <IconComponent className="h-3 w-3 mr-1" />}
           {label}
