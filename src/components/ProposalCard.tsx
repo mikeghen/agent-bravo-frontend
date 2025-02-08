@@ -68,6 +68,19 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
     args: detailsData ? [detailsData[0]] : undefined,
   });
 
+  // NEW: Read the proposal description via "getProposalDescription".
+  // This hook works only when we have a valid description hash (fetched above).
+  const { 
+    data: descriptionData, 
+    isLoading: descriptionLoading, 
+    error: descriptionError 
+  } = useReadContract({
+    address: CONTRACTS.AgentBravoGovernor.address,
+    abi: CONTRACTS.AgentBravoGovernor.abi,
+    functionName: "getProposalDescription",
+    args: descriptionHash ? [descriptionHash] : undefined,
+  });
+
   // Update local state when detailsData is available.
   useEffect(() => {
     if (detailsData) {
@@ -156,10 +169,16 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </span>
         </div>
-        {/* TODO: Description (shortened) */}
-        {/* <div className="flex-1 text-sm text-white truncate">
-          {descriptionHash ? descriptionHash.slice(0, 10) + "..." : "No description"}
-        </div> */}
+        {/* Proposal Description (truncated) */}
+        <div className="flex-1 text-sm text-white truncate">
+          {descriptionLoading 
+            ? "Loading description..." 
+            : descriptionData && descriptionData.toString().trim().length > 0 
+              ? (descriptionData.toString().length > 50 
+                  ? descriptionData.toString().slice(0, 50) + "..." 
+                  : descriptionData.toString())
+              : "No description available."}
+        </div>
         {/* Proposer */}
         <div className="text-sm text-gray-300 truncate mr-8">
           Proposer: {proposer ? (
@@ -169,7 +188,7 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
               rel="noopener noreferrer" 
               className="hover:text-primary transition-colors"
             >
-              {proposer}
+              {proposer.slice(0, 6)}...
             </a>
           ) : "N/A"}
         </div>
@@ -210,8 +229,13 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
         </h3>
 
         <p className="text-gray-400 mb-4 line-clamp-2">
-          Description Hash:{" "}
-          {descriptionHash ? descriptionHash.slice(0, 10) + "..." : "N/A"}
+          {descriptionLoading 
+            ? "Loading description..." 
+            : descriptionData && descriptionData.toString().trim().length > 0 
+              ? (descriptionData.toString().length > 60
+                  ? descriptionData.toString().slice(0, 60) + "..." 
+                  : descriptionData.toString())
+              : "No description available."}
         </p>
 
         {proposer && (
