@@ -221,7 +221,7 @@ const ProposalDetail = () => {
                 <p className="font-medium text-foreground">
                   {proposerData ? (
                     <a
-                      href={`https://sepolia.etherscan.io/address/${proposerData.toString()}`}
+                      href={`https://sepolia.arbiscan.io/address/${proposerData.toString()}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-primary transition-colors"

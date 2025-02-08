@@ -162,7 +162,7 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
         <div className="text-sm text-gray-300 truncate mr-8">
           Proposer: {proposer ? (
             <a 
-              href={`https://sepolia.etherscan.io/address/${proposer}`}
+              href={`https://sepolia.arbiscan.io/address/${proposer}`}
               target="_blank"
               rel="noopener noreferrer" 
               className="hover:text-primary transition-colors"

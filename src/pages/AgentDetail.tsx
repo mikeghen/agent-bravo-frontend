@@ -54,7 +54,7 @@ export default function AgentDetail() {
               </h1>
             </div>
             <a 
-              href={`https://sepolia.etherscan.io/address/${id}`}
+              href={`https://sepolia.arbiscan.io/address/${id}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80"

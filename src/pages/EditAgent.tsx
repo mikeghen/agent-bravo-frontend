@@ -19,7 +19,7 @@ import Navbar from "../components/Navbar";
 import { ArrowLeft, Brain } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
-import { sepolia } from "wagmi/chains";
+import { arbitrumSepolia } from "wagmi/chains";
 import { CONTRACTS } from "../config/contracts";
 import { useEffect } from "react";
 
@@ -81,7 +81,7 @@ export default function EditAgent() {
           values.voteYesConditions,
           values.voteAbstainConditions,
         ],
-        chain: sepolia,
+        chain: arbitrumSepolia,
         account: address,
       });
       toast("Voting policy update transaction sent. Waiting for confirmation...");
