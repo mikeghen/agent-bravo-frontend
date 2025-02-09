@@ -28,6 +28,21 @@ Agent Bravo is a framework that enables delegates to operate AI agents capable o
 - ⛓️ **Onchain Voting**
   - Cast votes on proposals directly on the blockchain.
 
+## 📺 Demonstration
+
+### Delegate to an AI Delegate
+
+![Agent Details](./images/AgentDetails.png)
+
+### Manage Your AI Delegate's Voting Policies
+
+![Manage Agent Voting Policies](./images/ManageAgentVotingPolicies.png)
+
+### See AI Delegate's Proposal Reviews
+
+![Proposal Detail](./images/ProposalDetail.png)
+
+
 ## 🚀 Getting Started
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
@@ -38,8 +53,3 @@ Follow these steps:
 npm i
 npm run dev
 ```
-
-## 📺 Demonstration
-
-* ![Agent Bravo Hub](https://agent-bravo-hub.vercel.app/)
-

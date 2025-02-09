@@ -105,7 +105,7 @@ const ProposalDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
           <div className="glass-card rounded-lg p-8">Loading proposal details...</div>
         </div>
       </div>
@@ -116,7 +116,7 @@ const ProposalDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
           <div className="glass-card rounded-lg p-8">Error loading proposal details.</div>
         </div>
       </div>
@@ -126,133 +126,137 @@ const ProposalDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
-        <div className="glass-card rounded-lg p-8">
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <span
-                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                  status === "active"
-                    ? "bg-primary/20 text-primary border border-primary/30"
-                    : status === "passed"
-                    ? "bg-green-900/20 text-green-400 border-green-500/30"
-                    : status === "failed"
-                    ? "bg-red-900/20 text-red-400 border-red-500/30"
-                    : "bg-gray-800/40 text-gray-400 border border-gray-600/30"
-                }`}
-              >
-                {status.charAt(0).toUpperCase() + status.slice(1)} Proposal
-              </span>
-              <div className="flex items-center text-muted-foreground">
-                <Calendar className="h-4 w-4 mr-1" />
-                {deadlineDate}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column: Proposal Details and Voting */}
+          <div className="glass-card rounded-lg p-8">
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <span
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                    status === "active"
+                      ? "bg-primary/20 text-primary border border-primary/30"
+                      : status === "passed"
+                      ? "bg-green-900/20 text-green-400 border-green-500/30"
+                      : status === "failed"
+                      ? "bg-red-900/20 text-red-400 border-red-500/30"
+                      : "bg-gray-800/40 text-gray-400 border border-gray-600/30"
+                  }`}
+                >
+                  {status.charAt(0).toUpperCase() + status.slice(1)} Proposal
+                </span>
+                <div className="flex items-center text-muted-foreground">
+                  <Calendar className="h-4 w-4 mr-1" />
+                  {deadlineDate}
+                </div>
+              </div>
+
+              <h1 className="text-3xl font-bold text-white mb-4">{title}</h1>
+
+              <p className="text-muted-foreground">
+                {descriptionLoading
+                  ? "Loading proposal description..."
+                  : descriptionData && descriptionData.toString().length > 0
+                  ? descriptionData.toString()
+                  : "No description available."}
+              </p>
+            </div>
+
+            <div className="border-t border-border pt-6">
+              <h2 className="text-xl font-semibold text-foreground mb-4">Current Votes</h2>
+
+              <div className="space-y-4">
+                <div className="glass-card p-4">
+                  <div className="flex justify-between mb-2">
+                    <span className="flex items-center text-primary">
+                      <Check className="h-4 w-4 mr-1" />
+                      For
+                    </span>
+                    <span className="font-medium text-foreground">
+                      {forVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary rounded-full"
+                      style={{
+                        width: totalVotes > 0 ? `${(forVotes / totalVotes) * 100}%` : "0%",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="glass-card p-4">
+                  <div className="flex justify-between mb-2">
+                    <span className="flex items-center text-[#F97316]">
+                      <X className="h-4 w-4 mr-1" />
+                      Against
+                    </span>
+                    <span className="font-medium text-foreground">
+                      {againstVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-[#F97316] rounded-full"
+                      style={{
+                        width: totalVotes > 0 ? `${(againstVotes / totalVotes) * 100}%` : "0%",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="glass-card p-4">
+                  <div className="flex justify-between mb-2">
+                    <span className="flex items-center text-blue-400">
+                      <CircleDot className="h-4 w-4 mr-1" />
+                      Abstain
+                    </span>
+                    <span className="font-medium text-foreground">
+                      {abstainVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-400 rounded-full"
+                      style={{
+                        width: totalVotes > 0 ? `${(abstainVotes / totalVotes) * 100}%` : "0%",
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <h1 className="text-3xl font-bold text-white mb-4">{title}</h1>
-
-            <p className="text-muted-foreground">
-              {descriptionLoading
-                ? "Loading proposal description..."
-                : descriptionData && descriptionData.toString().length > 0
-                ? descriptionData.toString()
-                : "No description available."}
-            </p>
-          </div>
-
-          <div className="border-t border-border pt-6">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Current Votes</h2>
-
-            <div className="space-y-4">
-              <div className="glass-card p-4">
-                <div className="flex justify-between mb-2">
-                  <span className="flex items-center text-primary">
-                    <Check className="h-4 w-4 mr-1" />
-                    For
-                  </span>
-                  <span className="font-medium text-foreground">
-                    {forVotes.toLocaleString()}
-                  </span>
+            <div className="border-t border-border mt-8 pt-6">
+              <div className="grid grid-cols-[auto,1fr] gap-4">
+                <div>
+                  <span className="text-sm text-muted-foreground">Voting Ends</span>
+                  <p className="font-medium text-foreground">{deadlineDate}</p>
                 </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-primary rounded-full"
-                    style={{
-                      width: totalVotes > 0 ? `${(forVotes / totalVotes) * 100}%` : "0%",
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="glass-card p-4">
-                <div className="flex justify-between mb-2">
-                  <span className="flex items-center text-[#F97316]">
-                    <X className="h-4 w-4 mr-1" />
-                    Against
-                  </span>
-                  <span className="font-medium text-foreground">
-                    {againstVotes.toLocaleString()}
-                  </span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#F97316] rounded-full"
-                    style={{
-                      width: totalVotes > 0 ? `${(againstVotes / totalVotes) * 100}%` : "0%",
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="glass-card p-4">
-                <div className="flex justify-between mb-2">
-                  <span className="flex items-center text-blue-400">
-                    <CircleDot className="h-4 w-4 mr-1" />
-                    Abstain
-                  </span>
-                  <span className="font-medium text-foreground">
-                    {abstainVotes.toLocaleString()}
-                  </span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-blue-400 rounded-full"
-                    style={{
-                      width: totalVotes > 0 ? `${(abstainVotes / totalVotes) * 100}%` : "0%",
-                    }}
-                  />
+                <div>
+                  <span className="text-sm text-muted-foreground">Created by</span>
+                  <p className="font-medium text-foreground">
+                    {proposerData ? (
+                      <a
+                        href={`https://sepolia.arbiscan.io/address/${proposerData.toString()}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-primary transition-colors"
+                      >
+                        {proposerData.toString()}
+                      </a>
+                    ) : (
+                      "N/A"
+                    )}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-border mt-8 pt-6">
-            <div className="grid grid-cols-[auto,1fr] gap-4">
-              <div>
-                <span className="text-sm text-muted-foreground">Voting Ends</span>
-                <p className="font-medium text-foreground">{deadlineDate}</p>
-              </div>
-              <div>
-                <span className="text-sm text-muted-foreground">Created by</span>
-                <p className="font-medium text-foreground">
-                  {proposerData ? (
-                    <a
-                      href={`https://sepolia.arbiscan.io/address/${proposerData.toString()}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-primary transition-colors"
-                    >
-                      {proposerData.toString()}
-                    </a>
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-border mt-8 pt-6">
+          {/* Right Column: Proposal Comments */}
+          <div className="glass-card rounded-lg p-8">
             <h2 className="text-xl font-semibold gradient-text mb-6">Agent Comments</h2>
             <ProposalAgentComments proposalId={proposalString} />
           </div>
