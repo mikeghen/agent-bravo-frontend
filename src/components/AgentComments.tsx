@@ -16,7 +16,7 @@ interface AgentCommentsProps {
 }
 
 const AgentComments: React.FC<AgentCommentsProps> = ({ agentAddress }) => {
-  // Read the opinion list for indices 0 and 1
+  // Read the opinion list for indices 0, 1 and 2
   const { data: opinionId0 } = useContractRead({
     address: agentAddress,
     abi: AgentBravoDelegateABI,
@@ -29,6 +29,13 @@ const AgentComments: React.FC<AgentCommentsProps> = ({ agentAddress }) => {
     abi: AgentBravoDelegateABI,
     functionName: 'opinionList',
     args: [1]
+  });
+
+  const { data: opinionId2 } = useContractRead({
+    address: agentAddress,
+    abi: AgentBravoDelegateABI,
+    functionName: 'opinionList',
+    args: [2]
   });
 
   // Fetch full opinion details using getOpinion
@@ -46,13 +53,21 @@ const AgentComments: React.FC<AgentCommentsProps> = ({ agentAddress }) => {
     args: opinionId1 ? [opinionId1] : undefined
   });
 
-  if (!opinion0 || !opinion1) {
+  const { data: opinion2 } = useContractRead({
+    address: agentAddress,
+    abi: AgentBravoDelegateABI,
+    functionName: 'getOpinion',
+    args: opinionId2 ? [opinionId2] : undefined
+  });
+
+  if (!opinion0 || !opinion1 || !opinion2) {
     return <div>Loading Agent Comments...</div>;
   }
 
   const opinions: Opinion[] = [
     opinion0 as unknown as Opinion,
-    opinion1 as unknown as Opinion
+    opinion1 as unknown as Opinion,
+    opinion2 as unknown as Opinion
   ];
 
   return (
