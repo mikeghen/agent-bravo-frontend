@@ -30,7 +30,7 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/agents" className="text-gray-400 hover:text-primary transition-colors">
-              My Agents
+              Agents
             </Link>
             <Link to="/proposals" className="text-gray-400 hover:text-primary transition-colors">
               Proposals
@@ -134,7 +134,7 @@ const Navbar = () => {
               className="block px-3 py-2 text-gray-400 hover:text-primary"
               onClick={() => setIsOpen(false)}
             >
-              My Agents
+              Agents
             </Link>
             <Link
               to="/proposals"

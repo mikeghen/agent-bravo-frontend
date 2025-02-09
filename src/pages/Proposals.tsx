@@ -36,7 +36,10 @@ const Proposals = () => {
   // Once we know the proposal count, generate an array of proposal IDs.
   useEffect(() => {
     if (proposalCount > 0) {
-      const proposalsArr = Array.from({ length: proposalCount }, (_, i) => ({ id: i }));
+      // Create array in reverse order so newest proposals (highest IDs) appear first
+      const proposalsArr = Array.from({ length: proposalCount }, (_, i) => ({ 
+        id: proposalCount - 1 - i 
+      }));
       setProposals(proposalsArr);
     } else {
       setProposals([]);

@@ -61,7 +61,7 @@ export default function MyAgents() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-white">My Agents</h1>
+          <h1 className="text-4xl font-bold text-white">Agents</h1>
           <Button onClick={handleCreateAgent} className="gap-2 bg-primary hover:bg-primary/80 text-primary-foreground">
             <Plus size={20} />
             Create Agent

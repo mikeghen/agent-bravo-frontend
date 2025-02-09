@@ -100,9 +100,10 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
   useEffect(() => {
     if (votesData) {
       console.log("proposalVotes returned:", votesData);
-      setAgainstVotes(Number(votesData[0]));
-      setForVotes(Number(votesData[1]));
-      setAbstainVotes(Number(votesData[2]));
+      // Scale down votes by 1e18 and round to 0 decimal places
+      setAgainstVotes(Math.round(Number(votesData[0]) / 1e18));
+      setForVotes(Math.round(Number(votesData[1]) / 1e18));
+      setAbstainVotes(Math.round(Number(votesData[2]) / 1e18));
     } else {
       console.log("proposalVotes data not yet available.");
     }
@@ -137,8 +138,10 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
     if (deadlineData) {
       console.log("proposalDeadline returned:", deadlineData);
       const deadlineTimestamp = Number(deadlineData);
-      const dt = new Date(deadlineTimestamp * 1000).toLocaleDateString();
-      setDate(dt);
+      const date = new Date(deadlineTimestamp * 1000);
+      const formattedDate = date.toLocaleDateString() + ' ' + 
+        date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      setDate(formattedDate);
     } else {
       console.log("proposalDeadline data not yet available.");
     }
@@ -161,8 +164,6 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
         <div className="w-16 text-white font-medium">
           {proposalId ? `#${proposalId.toString().slice(-4)}` : `#${id}`}
         </div>
-        {/* Date */}
-        <div className="w-28 text-sm text-gray-400">{date}</div>
         {/* Status */}
         <div className="w-28">
           <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[status]}`}>
@@ -181,7 +182,7 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
         </div>
         {/* Proposer */}
         <div className="text-sm text-gray-300 truncate mr-8">
-          Proposer: {proposer ? (
+          Proposed by {proposer ? (
             <a 
               href={`https://sepolia.arbiscan.io/address/${proposer}`}
               target="_blank"

@@ -78,9 +78,9 @@ const ProposalDetail = () => {
     : "N/A";
 
   // Extract votes: votesData returns a tuple: [against, for, abstain]
-  const forVotes: number = votesData ? Number(votesData[1]) : 0;
-  const againstVotes: number = votesData ? Number(votesData[0]) : 0;
-  const abstainVotes: number = votesData ? Number(votesData[2]) : 0;
+  const forVotes: number = votesData ? Number(votesData[1]) / 1e18 : 0;
+  const againstVotes: number = votesData ? Number(votesData[0]) / 1e18 : 0;
+  const abstainVotes: number = votesData ? Number(votesData[2]) / 1e18 : 0;
 
   // Calculate total votes
   const totalVotes = forVotes + againstVotes + abstainVotes;

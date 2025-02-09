@@ -88,6 +88,12 @@ export default function AgentDetail() {
         <div className="flex justify-between items-start mb-8">
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
+              <Link to="/agents" className="inline-flex items-center gap-2 text-primary hover:text-primary/80">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Agents
+              </Link>
+            </div>
+            <div className="flex items-center gap-2 mt-4">
               <h1 className="text-4xl font-bold text-white flex items-center gap-2">
                 {id ? (
                   <>
@@ -116,6 +122,7 @@ export default function AgentDetail() {
               <div className="mt-4 flex items-center gap-4">
                 <div className="p-2 rounded-lg border border-green-300/30">
                   <p>
+                    <span className="text-muted-foreground">Voting with </span>
                     <span className="text-white">{votesLoading ? "Loading..." : agentVotes?.toString()}</span>{" "}
                     <span className="gradient-text">BRAVO</span>
                   </p>
@@ -125,19 +132,16 @@ export default function AgentDetail() {
                   disabled={isDelegatePending || isDelegateConfirming}
                   className="bg-background border border-primary/30 transition-colors"
                 >
-                  {isDelegatePending || isDelegateConfirming ? "Delegating..." : "Delegate"}
+                  {isDelegatePending || isDelegateConfirming ? "Delegating..." : "DELEGATE TO AGENT"}
                 </Button>
               </div>
             )}
           </div>
-          <a 
-            href={`https://sepolia.arbiscan.io/address/${id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:text-primary/80"
-          >
-            <ExternalLink className="w-5 h-5" />
-          </a>
+          <Link to={`/agents/${id}/edit`}>
+            <Button className="bg-primary hover:bg-primary/80 text-primary-foreground">
+              Edit Agent
+            </Button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
