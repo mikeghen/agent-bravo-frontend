@@ -15,6 +15,16 @@ const statusColors = {
   pending: "bg-gray-800/40 text-gray-400 border-gray-600/30",
 };
 
+const formatNumber = (num: number): string => {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(2).replace(/\.?0+$/, '') + 'K';
+  }
+  return num.toString();
+};
+
 const ProposalCard = ({ id }: ProposalCardProps) => {
   // Local state for on-chain proposal details.
   const [proposalId, setProposalId] = useState<string | null>(null);
@@ -196,14 +206,14 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
         {/* Votes - displayed as separate lines */}
         <div className="mr-4">
           <div className="flex items-center space-x-4 text-sm">
-            <div className="bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 rounded text-xs font-medium">
-              <span className="font-semibold">For:</span> {forVotes}
+            <div className="w-16 text-center bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 rounded text-xs font-medium">
+              {formatNumber(forVotes)}
             </div>
-            <div className="bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30 px-2 py-0.5 rounded text-xs font-medium">
-              <span className="font-semibold">Against:</span> {againstVotes}
+            <div className="w-16 text-center bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30 px-2 py-0.5 rounded text-xs font-medium">
+              {formatNumber(againstVotes)}
             </div>
-            <div className="bg-blue-300/20 text-blue-400 border border-blue-300/30 px-2 py-0.5 rounded text-xs font-medium">
-              <span className="font-semibold">Abstain:</span> {abstainVotes}
+            <div className="w-16 text-center bg-blue-300/20 text-blue-400 border border-blue-300/30 px-2 py-0.5 rounded text-xs font-medium">
+              {formatNumber(abstainVotes)}
             </div>
           </div>
         </div>
@@ -246,7 +256,7 @@ const ProposalCard = ({ id }: ProposalCardProps) => {
         )}
 
         <div className="mt-2 text-gray-300 text-sm">
-          <span>For: {forVotes}</span> - <span>Against: {againstVotes}</span> - <span>Abstain: {abstainVotes}</span>
+          {formatNumber(forVotes)} - {formatNumber(againstVotes)} - {formatNumber(abstainVotes)}
         </div>
 
         <div className="flex items-center text-primary font-medium mt-4">
