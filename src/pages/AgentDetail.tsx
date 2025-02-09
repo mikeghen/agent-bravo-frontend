@@ -76,6 +76,8 @@ export default function AgentDetail() {
   useEffect(() => {
     if (agentVotesData) {
       setAgentVotes((Number(agentVotesData) / 1e18).toString());
+    } else {
+      setAgentVotes("0");
     }
   }, [agentVotesData]);
 
@@ -112,17 +114,18 @@ export default function AgentDetail() {
             {/* Small box for votes on one line */}
             {id && (
               <div className="mt-4 flex items-center gap-4">
-                <div className="bg-purple-300/20 p-3 rounded-lg inline-block">
-                  <p className="gradient-text font-bold">{votesLoading ? "Loading..." : agentVotes?.toString()} BRAVO</p>
+                <div className="p-2 rounded-lg border border-green-300/30">
+                  <p>
+                    <span className="text-white">{votesLoading ? "Loading..." : agentVotes?.toString()}</span>{" "}
+                    <span className="gradient-text">BRAVO</span>
+                  </p>
                 </div>
                 <Button
                   onClick={handleDelegate}
                   disabled={isDelegatePending || isDelegateConfirming}
                   className="bg-background border border-primary/30 transition-colors"
                 >
-                  <span className="gradient-text font-bold">
-                    {isDelegatePending || isDelegateConfirming ? "Delegating..." : "Delegate"}
-                  </span>
+                  {isDelegatePending || isDelegateConfirming ? "Delegating..." : "Delegate"}
                 </Button>
               </div>
             )}

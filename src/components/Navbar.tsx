@@ -2,9 +2,21 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useReadContract, useAccount } from 'wagmi';
+import { CONTRACTS } from "@/config/contracts";
 
 const Navbar = () => {
+  const { address } = useAccount();
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: balanceData } = useReadContract({
+    address: CONTRACTS.AgentBravoToken.address,
+    abi: CONTRACTS.AgentBravoToken.abi,
+    functionName: "balanceOf",
+    args: [address],
+  });
+
+  const formattedBalance = balanceData ? (Number(balanceData) / 1e18).toString() : "0";
 
   return (
     <nav className="fixed w-full bg-background/80 backdrop-blur-md z-50 border-b border-white/10">
@@ -23,7 +35,15 @@ const Navbar = () => {
             <Link to="/proposals" className="text-gray-400 hover:text-primary transition-colors">
               Proposals
             </Link>
-            <div className="ml-4">
+            <div className="ml-4 flex items-center gap-4">
+              {address && (
+                <div className="p-2 rounded-lg border border-green-300/30">
+                  <p>
+                    <span className="text-white">{formattedBalance}</span>{" "}
+                    <span className="gradient-text">BRAVO</span>
+                  </p>
+                </div>
+              )}
               <ConnectButton.Custom>
                 {({
                   account,
@@ -123,6 +143,16 @@ const Navbar = () => {
             >
               Proposals
             </Link>
+            {address && (
+              <div className="px-3 py-2">
+                <div className="p-2 rounded-lg border border-green-300/30">
+                  <p>
+                    <span className="text-white">{formattedBalance}</span>{" "}
+                    <span className="gradient-text">BRAVO</span>
+                  </p>
+                </div>
+              </div>
+            )}
             <div className="px-3 py-2">
               <ConnectButton />
             </div>

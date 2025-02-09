@@ -29,6 +29,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ index }) => {
   const [voteNoConditions, setVoteNoConditions] = useState<string | null>(null);
   const [voteYesConditions, setVoteYesConditions] = useState<string | null>(null);
   const [voteAbstainConditions, setVoteAbstainConditions] = useState<string | null>(null);
+  const [agentVotes, setAgentVotes] = useState<string>("0");
 
   useEffect(() => {
     if (agentAddress) {
@@ -53,6 +54,20 @@ const AgentCard: React.FC<AgentCardProps> = ({ index }) => {
     }
   }, [votingPolicy]);
 
+  // Add the votes reading logic
+  const { data: agentVotesData, isLoading: votesLoading } = useReadContract({
+    address: CONTRACTS.AgentBravoToken.address,
+    abi: CONTRACTS.AgentBravoToken.abi,
+    functionName: "getVotes",
+    args: [agentAddr || "0x0000000000000000000000000000000000000000"],
+  });
+
+  useEffect(() => {
+    if (agentVotesData) {
+      setAgentVotes((Number(agentVotesData) / 1e18).toString());
+    }
+  }, [agentVotesData]);
+
   if (addressLoading || policyLoading) {
     return <div className="glass-card p-6 rounded-lg">Loading...</div>;
   }
@@ -60,11 +75,18 @@ const AgentCard: React.FC<AgentCardProps> = ({ index }) => {
   return (
     <Link to={`/agents/${agentAddr}`}>
       <div className="glass-card p-6 rounded-lg hover:neon-border transition-all duration-300">
-        <h2 className="text-xl font-semibold text-foreground">Agent {agentAddr ? agentAddr.slice(0,10) : index + 1}</h2>
+        <div className="flex justify-between items-start">
+          <h2 className="text-xl font-semibold text-foreground">Agent {agentAddr ? agentAddr.slice(0,10) : index + 1}</h2>
+          <div className="p-2 rounded-lg border border-green-300/30">
+            <p>
+              <span className="text-muted-foreground">Voting with </span>
+              <span className="text-white">{votesLoading ? "Loading..." : agentVotes}</span>{" "}
+              <span className="gradient-text">BRAVO</span>
+            </p>
+          </div>
+        </div>
         <p className="text-muted-foreground mt-1 line-clamp-2">
-          {backstory
-            ? backstory
-            : "No details available."}
+          {backstory ? backstory : "No details available."}
         </p>
       </div>
     </Link>
