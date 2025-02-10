@@ -1,40 +1,43 @@
-
 const Roadmap = () => {
   const milestones = [
     {
-      quarter: "Q1 2024",
-      title: "Framework Launch",
+      quarter: "Q1",
+      title: "Local Framework Development",
       items: [
-        "Launch of Agent Bravo Framework",
-        "Initial Token Distribution & Uniswap V4 Pools",
-        "Community Building Initiative"
+        "Multi-delegate support for governance contracts",
+        "Dockerized setup for deployment",
+        "Initial frontend for managing AI agents",
+        "Integration of multiple DAOs"
       ]
     },
     {
-      quarter: "Q2 2024",
-      title: "Ecosystem Growth",
+      quarter: "Q2",
+      title: "Testnet Deployment",
       items: [
-        "Integration with Major DAOs",
-        "Advanced Agent Templates",
-        "Developer SDK Release"
+        "Deployment on Sepolia Testnet",
+        "Governance demo with Compound DAO",
+        "Basic frontend dashboard",
+        "Two-way AI communication skills"
       ]
     },
     {
-      quarter: "Q3 2024",
-      title: "Protocol Expansion",
+      quarter: "Q3",
+      title: "Smart Contract & Frontend Enhancements",
       items: [
-        "Cross-chain Integration",
-        "Governance Optimization",
-        "Enhanced Security Features"
+        "Hosted frontend for AI agent management",
+        "Smart contract security improvements",
+        "Backend infrastructure for AI governance",
+        "Operator delegation for executing votes"
       ]
     },
     {
-      quarter: "Q4 2024",
-      title: "Scaling Solutions",
+      quarter: "Q4",
+      title: "Full Audit & Mainnet Launch",
       items: [
-        "L2 Integration",
-        "Advanced Analytics Dashboard",
-        "DAO-to-DAO Communication"
+        "Complete security audit",
+        "Mainnet deployment",
+        "Major protocol integrations",
+        "Governance proposal analysis tools"
       ]
     }
   ];
