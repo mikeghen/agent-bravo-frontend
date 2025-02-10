@@ -12,7 +12,6 @@ const Index = () => {
       <div className="space-y-24">
         <Hero />
         <Roadmap />
-        <TokenPresale />
       </div>
       <Footer />
     </div>
